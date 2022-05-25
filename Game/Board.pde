@@ -27,5 +27,9 @@ public class Board {
      text(i, j * bLength/8 + 50, bLength + (height - bLength)/2); 
      j++;
     }
+        
+    for(int i = 1; i < 9; i++){
+      text(i, bLength+ (height - bLength)/2, i * bLength/8 - 50);
+    }
   }
 }
