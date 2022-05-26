@@ -7,9 +7,7 @@ Our plan is to create a chess game that follows most of the standard rules of th
 To be run in processing. To start the game, enter in the name of the first and second player. To play, follow standard rules of chess and type in the location of the piece you want to move and then where you want to move it to.
 ### Development Log
 ##### 5/23/2022
-Anson: Worked on readme and added basic information like names, link, basic instructions.
-<<<<<<< HEAD
-=======
+Anson: Worked on readme and added basic information like names, link, basic instructions
 ##### 5/24/2022
 Brian: Created the base files for all the classes.
 ##### 5/25/2022
