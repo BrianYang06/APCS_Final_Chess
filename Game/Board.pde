@@ -1,5 +1,5 @@
 public class Board {
-  int bLength = 800;
+  int bLength = width - 50;
   final Square[][] spaces = new Square[8][8];
 
   public void create() {

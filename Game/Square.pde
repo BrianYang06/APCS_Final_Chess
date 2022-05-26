@@ -1,14 +1,14 @@
 public class Square {
   Pieces Occupant;
-  color colr;
+  color colr = 100;
   int lengthSquare;
 
   public Square(int x, int y, int z) {
-    lengthSquare = 800 / 8;
+    lengthSquare = (width - 50) / 8;
     if (z == 0) {
-      colr = color(0);
+      colr = color(colr);
     } else if (z == 1) {
-      colr = color(255);
+      colr = color(255 - colr);
     }
     fill(colr);
     square(x, y, lengthSquare);
