@@ -3,6 +3,8 @@ public class Board {
   final Square[][] spaces = new Square[8][8];
 
   public void create() {
+    textSize(12);
+    background(255);
     rect(0, 0, bLength, bLength);
 
     //Creation of the Checkered Board Pattern

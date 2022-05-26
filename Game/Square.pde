@@ -1,6 +1,6 @@
 public class Square {
   Pieces Occupant;
-  color colr = 100;
+  color colr = 0;  
   int lengthSquare;
 
   public Square(int x, int y, int z) {
