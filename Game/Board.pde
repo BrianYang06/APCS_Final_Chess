@@ -1,8 +1,10 @@
 public class Board {
-  int bLength = 800;
+  int bLength = width - 50;
   final Square[][] spaces = new Square[8][8];
 
   public void create() {
+    textSize(12);
+    background(255);
     rect(0, 0, bLength, bLength);
 
     //Creation of the Checkered Board Pattern
