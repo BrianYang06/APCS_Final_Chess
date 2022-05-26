@@ -32,4 +32,9 @@ public class Board {
       text(i, bLength+ (height - bLength)/2, i * bLength/8 - 50);
     }
   }
+  
+  
+  void reset(){
+   create(); 
+  }
 }
