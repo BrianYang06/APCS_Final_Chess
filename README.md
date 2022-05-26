@@ -8,3 +8,10 @@ To be run in processing. To start the game, enter in the name of the first and s
 ### Development Log
 ##### 5/23/2022
 Anson: Worked on readme and added basic information like names, link, basic instructions.
+<<<<<<< HEAD
+=======
+##### 5/24/2022
+Brian: Created the base files for all the classes.
+##### 5/25/2022
+Brian: Created Square class and then the Board class. Also added the locational indicators for the chessboard.
+>>>>>>> Brian01
