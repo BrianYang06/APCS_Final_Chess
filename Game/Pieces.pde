@@ -8,8 +8,14 @@ public class Pieces {
 
   Pieces(color c_, int x_, int y_) {
     col = c_;
-    x = x_;
-    y = y_;
+    x = x_ * 100;
+    y = y_ * 100;
+
+    isDead = false;
+  }
+
+  Pieces(color c_) {
+    col = c_;
     isDead = false;
   }
 
@@ -17,13 +23,6 @@ public class Pieces {
     isDead = true;
   }
 
-  void show() { //not in prototype- not sure if we need
-    if (!isDead && piece != null) {
-      //can we put this in the constructor- I'm not sure cause this class doesn't have anything for piece
-      piece.resize(100, 100); //works w our default size but p need to check wh
-      image(piece, x, y);
-    }
-  }
 
   void move(int x_, int y_) {
     /*
@@ -37,84 +36,73 @@ public class Pieces {
     y = y_;
     image(piece, x, y);
   }
+
+  String setImage() {
+    return null;
+  }
 }
 
 //move to a new tab- j testing it first
 class Pawn extends Pieces {
-  Pawn(color c_, int x_, int y_) {
-    super(c_, x_, y_);
-    setImage();
+  Pawn(color c_) {
+    super(c_);
   }
-  void setImage() {
+
+  String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
-      piece = loadImage("Black_Pawn.png");
-    } else if (col == 255) {
-      piece = loadImage("White_Pawn.png");
-    }
-    this.show();
+      return "Black_Pawn.png";
+    } else return "White_Pawn.png";
   }
 }
 
 class Knight extends Pieces {
-  Knight(color c_, int x_, int y_) {
-    super(c_, x_, y_);
-    setImage();
+  Knight(color c_) {
+    super(c_);
   }
-  void setImage() {
+  String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
-      piece = loadImage("Black_Knight.png");
+      return "Black_Knight.png";
     } else if (col == 255) {
-      piece = loadImage("White_Knight.png");
-    }
-    this.show();
+      return "White_Knight.png";
+    } else return "";
   }
 }
 
 class Rook extends Pieces {
-  Rook(color c_, int x_, int y_) {
-    super(c_, x_, y_);
-    setImage();
+  Rook(color c_) {
+    super(c_);
   }
-  void setImage() {
+
+  String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
-      piece = loadImage("Black_Rook.png");
-    } else if (col == 255) {
-      piece = loadImage("White_Rook.png"); 
-    }
+      return "Black_Rook.png";
+    } else return "White_Rook.png";
   }
 }
 
 class Queen extends Pieces {
-  Queen(color c_, int x_, int y_) {
-    super(c_, x_, y_);
-    setImage();
+  Queen(color c_) {
+    super(c_);
   }
-  void setImage() {
+  String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
-      piece = loadImage("Black_Queen.png");
-    } else if (col == 255) {
-      piece = loadImage("White_Queen.png");
-    }
-    this.show();
+      return "Black_Queen.png";
+    } else return "White_Queen.png";
   }
 }
 
 class King extends Pieces {
-  King(color c_, int x_, int y_) {
-    super(c_, x_, y_);
-    setImage();
+  King(color c_) {
+    super(c_);
   }
-  void setImage() {
+  String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
-      piece = loadImage("Black_King.png");
-    } else if (col == 255) {
-      piece = loadImage("White_King.png");
-    }
-    this.show();
+      return "Black_King.png";
+    } else return "White_King.png";
   }
 }
