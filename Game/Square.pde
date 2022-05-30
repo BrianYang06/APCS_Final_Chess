@@ -3,19 +3,18 @@ public class Square {
   color colr = 0;  
   int lengthSquare;
 
-  public Square(int x, int y, int clr) {
+  public Square(int x, int y, Pieces piece) {
     lengthSquare = (width - 50) / 8;
-    
+    x *= 100;
+    y*= 100;
     //To create complementary colors
-    if (clr == 0) {
+   /* if (clr == 0) {
       colr = color(colr);
     } else if (clr == 1) {
       colr = color(255 - colr);
     }
-    
-    //To show a square
-    fill(colr);
-    square(x, y, lengthSquare);
+    */
+   
   }
 
   boolean isEmpty() {

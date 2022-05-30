@@ -1,6 +1,6 @@
 public class Board {
   int bLength = width - 50;
-  final Square[][] spaces = new Square[8][8];
+  Square[][] spaces = new Square[8][8];
   
   public Board(){
     create();
@@ -17,9 +17,11 @@ public class Board {
       for (int j = 0; j < spaces[0].length; j++) {
         alternate = !alternate;
         if (alternate == false) {
-          spaces[i][j] = new Square(i * bLength / 8, j * 100, 0);
+          fill(55);
+          square(i * 100, j * 100, 100);
         } else if (alternate == true) {
-          spaces[i][j] = new Square(i * bLength / 8, j * 100, 1);
+          fill(205);
+          square(i * bLength/8, j * bLength/8, 100);
         }
       }
       if (alternate == true) {
@@ -31,12 +33,15 @@ public class Board {
     int j = 0;
     for(char i = 'A'; i < 'Z'; i++){
      text(i, j * bLength/8 + 50, bLength + (height - bLength)/2); 
-     j++;
+     j++; 
     }
         
     for(int i = 1; i < 9; i++){
       text(i, bLength+ (height - bLength)/2, i * bLength/8 - 50);
     }
+    
+    //Adding pieces to the board
+    spaces[0][0] = new Square(0, 0, new King(255, 0, 0));
   }
   
   
