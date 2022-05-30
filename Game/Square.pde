@@ -31,4 +31,13 @@ public class Square {
   void setLength(int len) {
     lengthSquare = len;
   }
+  
+  void setPiece(Pieces piece){
+    Occupant = piece;
+  }
+  
+  color getColor(){
+    //not in prototype but might be useful to just draw over it
+    return colr;
+  }
 }
