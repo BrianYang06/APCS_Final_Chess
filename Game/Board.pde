@@ -41,7 +41,10 @@ public class Board {
     }
     
     //Adding pieces to the board
-    spaces[0][0] = new Square(0, 0, new King(255, 0, 0));
+    spaces[0][0] = new Square(0, 0, new Rook(255));
+    spaces[0][1] = new Square(1, 0, new Knight(255)); 
+    //spaces[0][2] = new Square(2, 0, new Bishop(255, 2, 0));
+    spaces[0][3] = new Square(3, 0, new Queen(255));
   }
   
   
