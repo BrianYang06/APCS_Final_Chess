@@ -3,13 +3,17 @@ public class Square {
   color colr = 0;  
   int lengthSquare;
 
-  public Square(int x, int y, int z) {
+  public Square(int x, int y, int clr) {
     lengthSquare = (width - 50) / 8;
-    if (z == 0) {
+    
+    //To create complementary colors
+    if (clr == 0) {
       colr = color(colr);
-    } else if (z == 1) {
+    } else if (clr == 1) {
       colr = color(255 - colr);
     }
+    
+    //To show a square
     fill(colr);
     square(x, y, lengthSquare);
   }
