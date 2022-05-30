@@ -63,7 +63,6 @@ class Knight extends Pieces{
   }
   void setImage(){
     if (col == 0){
-      //works with other images (chess.jpeg)
       piece = loadImage("Black_Knight.png");
     }else if (col == 255){
       piece = loadImage("White_Knight.png");
@@ -78,7 +77,6 @@ class Rook extends Pieces{
   }
   void setImage(){
     if (col == 0){
-      //works with other images (chess.jpeg)
       piece = loadImage("Black_Rook.png");
     }else if (col == 255){
       piece = loadImage("White_Rook.png");
@@ -93,7 +91,6 @@ class Queen extends Pieces{
   }
   void setImage(){
     if (col == 0){
-      //works with other images (chess.jpeg)
       piece = loadImage("Black_Queen.png");
     }else if (col == 255){
       piece = loadImage("White_Queen.png");
@@ -108,7 +105,6 @@ class King extends Pieces{
   }
   void setImage(){
     if (col == 0){
-      //works with other images (chess.jpeg)
       piece = loadImage("Black_King.png");
     }else if (col == 255){
       piece = loadImage("White_King.png");
