@@ -1,7 +1,11 @@
 public class Board {
   int bLength = width - 50;
   final Square[][] spaces = new Square[8][8];
-
+  
+  public Board(){
+    create();
+  }
+  
   public void create() {
     textSize(12);
     background(255);
