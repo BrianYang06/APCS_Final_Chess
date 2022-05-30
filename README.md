@@ -12,3 +12,5 @@ Anson: Worked on readme and added basic information like names, link, basic inst
 Brian: Created the base files for all the classes.
 ##### 5/25/2022
 Brian: Created Square class and then the Board class. Also added the locational indicators for the chessboard.
+##### 5/26/2022
+Brian: Added reset method to game board and a title screen

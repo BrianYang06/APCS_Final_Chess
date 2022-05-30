@@ -1,7 +1,11 @@
 public class Board {
   int bLength = width - 50;
   final Square[][] spaces = new Square[8][8];
-  Pawn test = new Pawn(0, 100, 100);
+  
+  public Board(){
+    create();
+  }
+  
   public void create() {
     textSize(12);
     background(255);
@@ -33,8 +37,6 @@ public class Board {
     for(int i = 1; i < 9; i++){
       text(i, bLength+ (height - bLength)/2, i * bLength/8 - 50);
     }
-    //test
-    test.show();
   }
   
   
