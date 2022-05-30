@@ -106,3 +106,16 @@ class King extends Pieces {
     } else return "White_King.png";
   }
 }
+
+class Bishop extends Pieces{
+ Bishop(color c_){
+   super(c_);
+ }
+ 
+ String setImage(){
+   if(col == 0){
+     return "Black_Bishop.png";
+   }else return "White_Bishop.png";
+ }
+ 
+}
