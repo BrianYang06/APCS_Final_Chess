@@ -22,19 +22,35 @@ public class Pieces {
   void kill() {
     isDead = true;
   }
+  
+  //if the move follows the rules of how the piece is supposed to move
+  boolean pieceMovement(Board board, int x_, int y_){
+    return false;
+  }
 
-
-  void move(int x_, int y_) {
-    /*
-    not sure if we should j draw a Square over n replace it in the spaces array
-     or have it in Square when set null idk
-     spaces[x/8??][y/8].setPiece(null);
-     bc 100,100 is 2,2 but not tested cause I'm having issues w the Squares
-     spaces[log10(x)][log10(y)].setPiece(null);
-     */
-    x = x_;
-    y = y_;
-    image(piece, x, y);
+  boolean canMove(Board board, int x_, int y_){
+    if (pieceMovement(board, x_, y_) == false){
+      return false;
+    }
+    Pieces inNew = board.squareAt(x_, y_).getOccupant();
+    //piece of same color blocking
+    if (inNew != null){
+      if ((this.col == 255 && inNew.col == 255) ||
+      (this.col == 0 && inNew.col == 0)){
+        return false;
+       }
+    }
+    return true;
+  }
+  
+  void move(Board board, int x_, int y_) {
+    if (canMove(board, x_, y_)){
+      board.squareAt(x, y).setPiece(null);
+      x = x_;
+      y = y_;
+      image(piece, x, y);
+      board.squareAt(x, y).setPiece(this);
+    }
   }
 
   String setImage() {
@@ -104,5 +120,17 @@ class King extends Pieces {
       //works with other images (chess.jpeg)
       return "Black_King.png";
     } else return "White_King.png";
+  }
+}
+
+class Bishop extends Pieces {
+  Bishop(color c_) {
+    super(c_);
+  }
+
+  String setImage() {
+    if (col == 0) {
+      return "Black_Bishop.png";
+    } else return "White_Bishop.png";
   }
 }
