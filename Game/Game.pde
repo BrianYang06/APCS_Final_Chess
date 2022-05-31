@@ -2,23 +2,26 @@ Board b;
 
 void setup() {
   size(850, 850);
-  title();
+  //title();
+  startGame();
+  
 }
 
 void draw() {
-  for(int i = 0; i <= 7; i++){
-    for(int j = 0; i <= 7; j++){
-      if(b.spaces[i][j] != null){
-       b.spaces[i][j].show();
-      }
-    }
-  }
+  b.update();
   
+}
+
+void mouseClicked(){
+  int first = getInt("Select unit: ");
+  int loc = getInt("Enter placement: ");
+  b.move(first, loc);
 }
 
 void startGame() {
   b = new Board();
 }
+
 
 void keyPressed() {
   if (key == ' ') {
