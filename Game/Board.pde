@@ -71,8 +71,8 @@ public class Board {
     int pStringNum = lToN(pLetter);
     int pNum = Integer.parseInt(place.substring(1)) - 1;
 
-    Pieces x = spaces[fStringNum][fNum].getPiece();
-    spaces[fStringNum][fNum].setPiece(null);
+    Pieces x = spaces[fNum][fStringNum].getPiece();
+    spaces[fNum][fStringNum].setPiece(null);
     spaces[pNum][pStringNum].setPiece(x);
   }
 
