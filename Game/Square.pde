@@ -50,4 +50,8 @@ public class Square {
     //not in prototype but might be useful to just draw over it
     return colr;
   }
+  
+  Pieces getOccupant(){
+    return Occupant;
+  }
 }

@@ -5,6 +5,10 @@ public class Board {
   public Board() {
     create();
   }
+  
+  Square squareAt(int x, int y){
+    return spaces[x][y];
+  }
 
   public void create() {
     textSize(12);

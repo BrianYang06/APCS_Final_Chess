@@ -5,7 +5,11 @@ public class Pieces {
   int x;
   int y;
   boolean isDead;
-
+  
+  String name(){
+    return "piece";
+  }
+  
   Pieces(color c_, int x_, int y_) {
     col = c_;
     x = x_ * 100;
@@ -23,20 +27,6 @@ public class Pieces {
     isDead = true;
   }
 
-
-  void move(int x_, int y_) {
-    /*
-    not sure if we should j draw a Square over n replace it in the spaces array
-     or have it in Square when set null idk
-     spaces[x/8??][y/8].setPiece(null);
-     bc 100,100 is 2,2 but not tested cause I'm having issues w the Squares
-     spaces[log10(x)][log10(y)].setPiece(null);
-     */
-    x = x_;
-    y = y_;
-    image(piece, x, y);
-  }
-
   String setImage() {
     return null;
   }
@@ -46,6 +36,10 @@ public class Pieces {
 class Pawn extends Pieces {
   Pawn(color c_) {
     super(c_);
+  }
+  
+  String name(){
+    return "pawn";
   }
 
   String setImage() {
@@ -60,6 +54,11 @@ class Knight extends Pieces {
   Knight(color c_) {
     super(c_);
   }
+  
+  String name(){
+    return "knight";
+  }
+  
   String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
@@ -74,7 +73,11 @@ class Rook extends Pieces {
   Rook(color c_) {
     super(c_);
   }
-
+  
+  String name(){
+    return "rook";
+  }
+  
   String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
@@ -87,6 +90,11 @@ class Queen extends Pieces {
   Queen(color c_) {
     super(c_);
   }
+  
+  String name(){
+    return "queen";
+  }
+  
   String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
@@ -99,6 +107,11 @@ class King extends Pieces {
   King(color c_) {
     super(c_);
   }
+  
+  String name(){
+    return "king";
+  }
+  
   String setImage() {
     if (col == 0) {
       //works with other images (chess.jpeg)
@@ -110,6 +123,10 @@ class King extends Pieces {
 class Bishop extends Pieces {
   Bishop(color c_) {
     super(c_);
+  }
+  
+  String name(){
+    return "bishop";
   }
 
   String setImage() {
