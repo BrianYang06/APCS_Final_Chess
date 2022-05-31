@@ -16,12 +16,14 @@ public class Square {
   }
 
   void show() { //not in prototype- not sure if we need
+  if(Occupant != null){
     if (Occupant != null && !Occupant.isDead) {
       //can we put this in the constructor- I'm not sure cause this class doesn't have anything for piece
       PImage piece = loadImage(Occupant.setImage());
       piece.resize(100, 100); //works w our default size but p need to check wh
       image(piece, x, y);
     }
+  }
   }
 
   boolean isEmpty() {

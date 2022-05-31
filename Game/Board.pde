@@ -28,7 +28,7 @@ public class Board {
         alternate = !alternate;
       } else alternate = !alternate;
     }
-    
+    fill(0);
     //Creation of the Letters/Numbers
     int j = 0;
     for(char i = 'A'; i < 'Z'; i++){
