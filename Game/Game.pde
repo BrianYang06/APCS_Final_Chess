@@ -1,20 +1,21 @@
 Board b;
+import javax.swing.*;
 
 void setup() {
   size(850, 850);
-  //title();
+  title();
   startGame();
 }
 
 void draw() {
-  b.update();
+    b.update();
 }
 
 void mouseClicked() {
   //use try catch later to check for out of bounds
 
-  String first = getString("Select unit: ");
-  String loc = getString("Enter placement: "); 
+  String first = getS("Select unit: ");
+  String loc = getS("Enter placement: "); 
   b.move(first, loc);
 }
 
@@ -43,4 +44,25 @@ void title() {
   fill(255);
   text("CHESS", width/2 - 90, 198);
   text("Press SPACEBAR to start", 140, 652);
+}
+
+
+String prompt(String s)
+{
+  println(s);
+  String entry = JOptionPane.showInputDialog(s);
+  if (entry == null)
+    return null;
+  println(entry);
+  return entry;
+}
+
+String getS(String s)
+{
+  return prompt(s);
+}
+
+int getI(String s)
+{
+  return Integer.parseInt(getS(s));
 }
