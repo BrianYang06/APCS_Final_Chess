@@ -72,6 +72,10 @@ public class Board {
     }
   }
   
+  Square squareAt(int x, int y){
+    return spaces[x][y];
+  }
+  
   
   void reset(){
    create(); 
