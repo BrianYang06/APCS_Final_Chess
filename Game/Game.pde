@@ -4,15 +4,24 @@ void setup() {
   size(850, 850);
   //title();
   startGame();
+  
 }
 
 void draw() {
   b.update();
+  
+}
+
+void mouseClicked(){
+  int first = getInt("Select unit: ");
+  int loc = getInt("Enter placement: ");
+  b.move(first, loc);
 }
 
 void startGame() {
   b = new Board();
 }
+
 
 void keyPressed() {
   if (key == ' ') {

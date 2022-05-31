@@ -56,6 +56,12 @@ public class Board {
       }
     }
   }
+  
+  void move(int first, int place){
+    Pieces x = spaces[first/ 10][first % 10].getPiece();
+    spaces[first/ 10][first % 10].setPiece(null);
+    spaces[place / 10][place % 10].setPiece(x);
+  }
 
   void update() {
     createCheckered();
@@ -65,6 +71,7 @@ public class Board {
       }
     }
   }
+
   void createCheckered() {
     boolean alternate = false;
     for (int i = 0; i < spaces.length; i++) {
@@ -84,6 +91,7 @@ public class Board {
     }
     fill(0);
   }
+
 
   void reset() {
     create();
