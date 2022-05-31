@@ -70,10 +70,49 @@ public class Board {
     String pLetter = place.substring(0, 1);
     int pStringNum = lToN(pLetter);
     int pNum = Integer.parseInt(place.substring(1)) - 1;
-
-    Pieces x = spaces[fNum][fStringNum].getPiece();
-    spaces[fNum][fStringNum].setPiece(null);
-    spaces[pNum][pStringNum].setPiece(x);
+    
+    if (canMove(fNum, fStringNum, pNum, pStringNum)){
+      Pieces x = spaces[fNum][fStringNum].getPiece();
+      spaces[fNum][fStringNum].setPiece(null);
+      spaces[pNum][pStringNum].setPiece(x);
+    }
+  }
+  
+  boolean canMove(int firstX, int firstY, int lastX, int lastY){
+    //piece of same color in last
+    Pieces inNew = spaces[lastX][lastY].getOccupant();
+    Pieces inOld = spaces[firstX][firstY].getOccupant();
+    if (inNew != null){
+      if ((inOld.col == 255 && inNew.col == 255) ||
+      (inOld.col == 0 && inNew.col == 0)){
+        return false;
+       }
+    }
+    
+    //out of bounds
+    if (firstX < 0 || firstX > 7 || firstY < 0 || firstY > 7
+    || lastX < 0 || lastX > 7 || lastY < 0 || lastY > 7){
+      return false;
+    }
+    
+    if (inOld.name().equals("pawn")){
+      if (inOld.col == 255){ //white side
+        if (firstX == lastX + 1 && (firstY == lastY + 1 || firstY == lastY - 1)){ //capturing
+          if (inNew == null || inNew.col != 0){
+            return false;
+          }
+        }
+        else if (firstX == 6){
+          if (firstY != lastY || (firstX != lastX + 1 && firstX != lastX + 2)){
+            return false;
+          }
+        }else{
+          if (firstY != lastY || firstX != lastX + 1){
+            return false;
+          }
+        }
+      }
+    }return true;
   }
 
   int lToN(String x) {
