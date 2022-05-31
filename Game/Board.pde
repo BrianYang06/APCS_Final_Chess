@@ -9,7 +9,7 @@ public class Board {
   Square squareAt(int x, int y){
     return spaces[x][y];
   }
-
+  
   public void create() {
     textSize(12);
     background(255);

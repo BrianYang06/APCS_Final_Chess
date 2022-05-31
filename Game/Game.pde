@@ -1,6 +1,8 @@
-Board b;
 import javax.swing.*;
+Board b;
 boolean tit = false;
+Player[] players = new Player[2];
+int current = 0;
 
 void setup() {
   size(850, 850);
@@ -14,11 +16,20 @@ void draw() {
 }
 
 void mouseClicked() {
-  if (tit == false){
+  if (tit == false) {
     //use try catch later to check for out of bounds
+    String nameTurn = "";
+    //While game still going on
+    if (current == 0) {
+      nameTurn =  players[0].getName();
+      current++;
+    } else {
+      nameTurn = players[1].getName();
+      current = 0;
+    }
 
-    String first = getS("Select unit: ");
-    String loc = getS("Enter placement: "); 
+    String first = getS(nameTurn + " Select unit: ");
+    String loc = getS(nameTurn + " Enter placement: "); 
     b.move(first, loc);
   }
 }
@@ -32,6 +43,10 @@ void startGame() {
 void keyPressed() {
   if (key == ' ') {
     startGame();
+    String Name1 = getS("Enter Player 1 Name: ");
+    String Name2 = getS("Enter Player 2 Name: ");
+    players[0] = new Player(Name1, 255);
+    players[1] = new Player(Name2, 0);
   } else if (key == '`') {
     title();
     startGame();
@@ -58,7 +73,7 @@ String prompt(String s)
   println(s);
   String entry = JOptionPane.showInputDialog(s);
   if (entry == null)
-  return null;
+    return null;
   println(entry);
   return entry;
 }
