@@ -1,26 +1,31 @@
 Board b;
 import javax.swing.*;
+boolean tit = false;
 
 void setup() {
   size(850, 850);
   title();
-  startGame();
 }
 
 void draw() {
+  if (!tit) {
     b.update();
+  }
 }
 
 void mouseClicked() {
-  //use try catch later to check for out of bounds
+  if (tit == false){
+    //use try catch later to check for out of bounds
 
-  String first = getS("Select unit: ");
-  String loc = getS("Enter placement: "); 
-  b.move(first, loc);
+    String first = getS("Select unit: ");
+    String loc = getS("Enter placement: "); 
+    b.move(first, loc);
+  }
 }
 
 void startGame() {
   b = new Board();
+  tit = false;
 }
 
 
@@ -28,12 +33,13 @@ void keyPressed() {
   if (key == ' ') {
     startGame();
   } else if (key == '`') {
-    startGame();
     title();
+    startGame();
   }
 }
 
 void title() {
+  tit = true;
   background(0);
   PImage titlescreen = loadImage("chess.jpeg");
   image(titlescreen, 110, 248);
@@ -52,7 +58,7 @@ String prompt(String s)
   println(s);
   String entry = JOptionPane.showInputDialog(s);
   if (entry == null)
-    return null;
+  return null;
   println(entry);
   return entry;
 }

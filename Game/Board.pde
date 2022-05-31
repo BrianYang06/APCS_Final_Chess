@@ -18,6 +18,9 @@ public class Board {
     //Creation of the Checkered Board Pattern
     createCheckered();
     //Creation of the Letters/Numbers
+    fill(255);
+    rect(0, 800,850, 50);
+    fill(0);
     int j = 0;
     for (char i = 'A'; i < 'Z'; i++) {
       text(i, j * bLength/8 + 50, bLength + (height - bLength)/2); 
@@ -124,6 +127,7 @@ public class Board {
       } else alternate = !alternate;
     }
     fill(0);
+
   }
 
 
