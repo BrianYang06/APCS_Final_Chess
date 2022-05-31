@@ -6,6 +6,14 @@ void setup() {
 }
 
 void draw() {
+  for(int i = 0; i <= 7; i++){
+    for(int j = 0; i <= 7; j++){
+      if(b.spaces[i][j] != null){
+       b.spaces[i][j].show();
+      }
+    }
+  }
+  
 }
 
 void startGame() {
