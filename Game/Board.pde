@@ -131,6 +131,43 @@ public class Board {
         }
       }
     }
+    
+    if (inOld.name().equals("rook")){
+      //making sure its horizontal/vertical
+      if (firstX - lastX != 0 && firstY - lastY != 0){
+        return false;
+      }
+      //this part is supposed to be for checking for pieces in the way but it doesnt work
+      for (int i = firstX; i < lastX; i++){
+        if (spaces[i][firstY].getPiece() != null){
+          return false;
+        }
+      }
+      for (int i = firstX; i < lastX; i--){
+        if (spaces[i][firstY].getPiece() != null){
+          return false;
+        }
+      }
+      for (int i = firstY; i < lastY; i++){
+        if (spaces[firstX][i].getPiece() != null){
+          return false;
+        }
+      }
+      for (int i = firstY; i < lastY; i--){
+        if (spaces[firstX][i].getPiece() != null){
+          return false;
+        }
+      }
+    }
+    
+    if (inOld.name().equals("knight")){
+      if (firstX - lastX == 0 || firstY - lastY == 0){
+        return false;
+      }
+      if (abs(firstX - lastX) + abs(firstY - lastY) != 3){
+        return false;
+      }
+    }
     return true;
   }
 
