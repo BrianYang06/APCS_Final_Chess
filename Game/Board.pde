@@ -5,6 +5,10 @@ public class Board {
   public Board() {
     create();
   }
+  
+  Square squareAt(int x, int y){
+    return spaces[x][y];
+  }
 
   public void create() {
     textSize(12);
@@ -56,12 +60,42 @@ public class Board {
       }
     }
   }
-  
-  void move(int first, int place){
-    Pieces x = spaces[first/ 10][first % 10].getPiece();
-    spaces[first/ 10][first % 10].setPiece(null);
-    spaces[place / 10][place % 10].setPiece(x);
+
+  void move(String first, String place) {
+    String fLetter = first.substring(0, 1);
+    int fStringNum = lToN(fLetter);
+    int fNum = Integer.parseInt(first.substring(1)) - 1;
+
+
+    String pLetter = place.substring(0, 1);
+    int pStringNum = lToN(pLetter);
+    int pNum = Integer.parseInt(place.substring(1)) - 1;
+
+    Pieces x = spaces[fStringNum][fNum].getPiece();
+    spaces[fStringNum][fNum].setPiece(null);
+    spaces[pNum][pStringNum].setPiece(x);
   }
+
+  int lToN(String x) {
+    switch(x) {
+    case "A":
+      return 0;
+    case "B":
+      return 1;
+    case "C":
+      return 2;
+    case "D":
+      return 3;
+    case "E":
+      return 4;
+    case "F":
+      return 5;
+    case "G":
+      return 6;
+    }
+    return 7;
+  }
+
 
   void update() {
     createCheckered();

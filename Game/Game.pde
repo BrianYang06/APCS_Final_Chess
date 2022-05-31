@@ -4,17 +4,17 @@ void setup() {
   size(850, 850);
   //title();
   startGame();
-  
 }
 
 void draw() {
   b.update();
-  
 }
 
-void mouseClicked(){
-  int first = getInt("Select unit: ");
-  int loc = getInt("Enter placement: ");
+void mouseClicked() {
+  //use try catch later to check for out of bounds
+
+  String first = getString("Select unit: ");
+  String loc = getString("Enter placement: "); 
   b.move(first, loc);
 }
 
