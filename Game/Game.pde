@@ -27,11 +27,15 @@ void mouseClicked() {
       nameTurn = players[1].getName();
       current = 0;
     }
-
-    String first = getS(nameTurn + " Select unit: ");
+    String first;
+    first = getS(nameTurn + " Select unit: ");
     String loc = getS(nameTurn + " Enter placement: "); 
     b.move(first, loc);
   }
+}
+
+boolean validIn(String x) { //have this check if input commands are valid
+  return true;
 }
 
 void startGame() {
@@ -50,6 +54,8 @@ void keyPressed() {
   } else if (key == '`') {
     title();
     startGame();
+  } else if (key == 'p') {
+    exit();
   }
 }
 
