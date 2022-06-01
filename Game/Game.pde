@@ -47,10 +47,16 @@ void startGame() {
 void keyPressed() {
   if (key == ' ') {
     startGame();
-    String Name1 = getS("Enter Player 1 Name: ");
-    String Name2 = getS("Enter Player 2 Name: ");
-    players[0] = new Player(Name1, 255);
-    players[1] = new Player(Name2, 0);
+    String name1 = "";
+    String name2 = "";
+    while (name1.length() == 0) {
+      name1 = getS("Enter Player 1 Name: ");
+    }
+    while (name2.length() == 0) {
+      name2 = getS("Enter Player 2 Name: ");
+    }
+    players[0] = new Player(name1, 255);
+    players[1] = new Player(name2, 0);
   } else if (key == '`') {
     title();
     startGame();
