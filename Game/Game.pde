@@ -27,16 +27,34 @@ void mouseClicked() {
       nameTurn = players[1].getName();
       current = 0;
     }
-    String first;
-    first = getS(nameTurn + " Select unit: ");
+    String first = "";
+    while (!validIn(first)) {
+      first = getS(nameTurn + " Select unit: ");
+    }
     String loc = getS(nameTurn + " Enter placement: "); 
     b.move(first, loc);
   }
 }
 
 boolean validIn(String x) { //have this check if input commands are valid
-  return true;
+  if (x.length() == 2) {
+    String lLoc = x.substring(0, 1);
+    int iLoc;
+    try {
+      iLoc = Integer.parseInt(x.substring(1));
+    }
+    catch(Exception e) {
+      return false;
+    }
+    if (lLoc.compareTo("A") >=0 && lLoc.compareTo("H") <= 0) {
+      if (iLoc >= 1 && iLoc <= 8) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
+
 
 void startGame() {
   b = new Board();

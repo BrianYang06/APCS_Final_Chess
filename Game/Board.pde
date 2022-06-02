@@ -113,10 +113,10 @@ public class Board {
       for (int j = 0; j < spaces[0].length; j++) {
         alternate = !alternate;
         if (alternate == false) {
-          fill(55);
+          fill(105, 180, 105);
           square(i * 100, j * 100, 100);
         } else if (alternate == true) {
-          fill(205);
+          fill(150, 75, 150);
           square(i * bLength/8, j * bLength/8, 100);
         }
       }
@@ -126,10 +126,5 @@ public class Board {
     }
     fill(0);
 
-  }
-
-
-  void reset() {
-    create();
   }
 }
