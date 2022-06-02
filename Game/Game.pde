@@ -27,16 +27,34 @@ void mouseClicked() {
       nameTurn = players[1].getName();
       current = 0;
     }
-    String first;
-    first = getS(nameTurn + " Select unit: ");
+    String first = "";
+    while (!validIn(first)) {
+      first = getS(nameTurn + " Select unit: ");
+    }
     String loc = getS(nameTurn + " Enter placement: "); 
     b.move(first, loc);
   }
 }
 
 boolean validIn(String x) { //have this check if input commands are valid
-  return true;
+  if (x.length() == 2) {
+    String lLoc = x.substring(0, 1);
+    int iLoc;
+    try {
+      iLoc = Integer.parseInt(x.substring(1));
+    }
+    catch(Exception e) {
+      return false;
+    }
+    if (lLoc.compareTo("A") >=0 && lLoc.compareTo("H") <= 0) {
+      if (iLoc >= 1 && iLoc <= 8) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
+
 
 void startGame() {
   b = new Board();
@@ -47,10 +65,16 @@ void startGame() {
 void keyPressed() {
   if (key == ' ') {
     startGame();
-    String Name1 = getS("Enter Player 1 Name: ");
-    String Name2 = getS("Enter Player 2 Name: ");
-    players[0] = new Player(Name1, 255);
-    players[1] = new Player(Name2, 0);
+    String name1 = "";
+    String name2 = "";
+    while (name1.length() == 0) {
+      name1 = getS("Enter Player 1 Name: ");
+    }
+    while (name2.length() == 0) {
+      name2 = getS("Enter Player 2 Name: ");
+    }
+    players[0] = new Player(name1, 255);
+    players[1] = new Player(name2, 0);
   } else if (key == '`') {
     title();
     startGame();
