@@ -3,6 +3,11 @@ Board b;
 boolean tit = false;
 Player[] players = new Player[2];
 int current = 0;
+int CLICK_MODE;
+final int FIRST = 0;
+final int LOC = 1;
+final int NEXT_PLAY = 2;
+String first;
 
 void setup() {
   size(850, 850);
@@ -15,24 +20,35 @@ void draw() {
   }
 }
 
+String mouseSquare(int x, int y){
+  char c = char(65 + (x / 100));
+  y = y / 100 + 1;
+  String sq = c + str(y);
+  return sq;
+}
+
 void mouseClicked() {
   if (tit == false) {
-    //use try catch later to check for out of bounds
-    String nameTurn = "";
-    //While game still going on
-    if (current == 0) {
-      nameTurn =  players[0].getName();
-      current++;
-    } else {
-      nameTurn = players[1].getName();
-      current = 0;
+     if (CLICK_MODE == FIRST){
+      first = mouseSquare(mouseX, mouseY);
+      println(first);
+      CLICK_MODE++;
+      // text(first, 800, 800);
+    }else if (CLICK_MODE == LOC){
+      String loc = mouseSquare(mouseX, mouseY);
+      CLICK_MODE=0;
+      // text(first + " " + loc, width - 50, width - 50);
+      b.move(first, loc);
     }
-    String first = "";
-    while (!validIn(first)) {
-      first = getS(nameTurn + " Select unit: ");
-    }
-    String loc = getS(nameTurn + " Enter placement: "); 
-    b.move(first, loc);
+    //else if (CLICK_MODE == NEXT_PLAY){
+    //  text(players[current].getName(), 800, 800);
+    //  if (current == 0){
+    //    current++;
+    //  }else{
+    //    current = 0;
+    //  }
+    //  CLICK_MODE = 0;
+    //}
   }
 }
 
