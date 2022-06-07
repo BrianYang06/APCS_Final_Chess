@@ -10,14 +10,16 @@ final int NEXT_PLAY = 2;
 String first;
 
 void setup() {
-  size(850, 850);
+  size(1000, 850);
   title();
 }
 
 void draw() {
   if (!tit) {
     b.update();
+    //text(players[current].getName() + "Turn", 400, 800);
   }
+
 }
 
 String mouseSquare(int x, int y){
@@ -81,16 +83,17 @@ void startGame() {
 void keyPressed() {
   if (key == ' ') {
     startGame();
-    String name1 = "";
-    String name2 = "";
-    while (name1.length() == 0) {
-      name1 = getS("Enter Player 1 Name: ");
-    }
-    while (name2.length() == 0) {
-      name2 = getS("Enter Player 2 Name: ");
-    }
-    players[0] = new Player(name1, 255);
-    players[1] = new Player(name2, 0);
+   // String name1 = "";
+   // String name2 = "";
+   //while (name1.length() == 0) {
+   //   name1 = getS("Enter Player 1 Name: ");
+   // }
+   // while (name2.length() == 0) {
+   //   name2 = getS("Enter Player 2 Name: ");
+   // }
+   // players[0] = new Player(name1, 255);
+   // players[1] = new Player(name2, 0);
+    
   } else if (key == '`') {
     title();
     startGame();
