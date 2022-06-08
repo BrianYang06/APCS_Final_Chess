@@ -80,6 +80,11 @@ public class Board {
   }
 
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
+    println("Last Y: " + lastY);
+    println("First Y: " + firstY);
+    println("First X: " + firstX);
+    println("Last X: " + lastX);
+    
     //piece of same color in last
     Pieces inNew = spaces[lastX][lastY].getOccupant();
     Pieces inOld = spaces[firstX][firstY].getOccupant();
@@ -91,10 +96,10 @@ public class Board {
     }
 
     //out of bounds
-    if (firstX < 0 || firstX > 7 || firstY < 0 || firstY > 7
-      || lastX < 0 || lastX > 7 || lastY < 0 || lastY > 7) {
+  /*  if (firstX < 0 || firstX > 7 || firstY < 0 || firstY > 7
+      || lastX < 0 || lastX > 7 || lastY < 0 || lastY > 8) {
       return false;
-    }
+    } */
 
     if (inOld.name().equals("pawn")) {
       if (inOld.col == 255) { //white side
@@ -134,9 +139,13 @@ public class Board {
     }
 
     if (inOld.name().equals("rook")) {
+      boolean moveVert = false;
+      boolean moveHor = false;
       //making sure its horizontal/vertical
-      if (firstX - lastX != 0 && firstY - lastY != 0) {
-        return false;
+      if (firstX == lastX) {
+        moveHor = true;
+      } else if (firstY == lastY && firstX != lastX) {
+        moveVert = true;
       }
       //this part is supposed to be for checking for pieces in the way but it doesnt work
       for (int i = firstX; i < lastX; i++) {
@@ -162,7 +171,6 @@ public class Board {
     }
 
     if (inOld.name().equals("knight")) {
-      println(firstX);
       if (firstX - lastX == 0 || firstY - lastY == 0) {
         return false;
       }
@@ -188,6 +196,17 @@ public class Board {
         return true;
       }
       if (firstX - 1 == lastX && firstY - 2 == lastY) {
+        return true;
+      }
+    }
+
+    if (inOld.name().equals("bishop")) {
+      println("bishop");
+      int tempX = abs(firstX - lastX);
+      int tempY = abs(firstY - lastY);
+      print(tempX + "    " + tempY);
+      if (tempX == tempY) {
+        //println("works");
         return true;
       }
     }
