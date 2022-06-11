@@ -176,10 +176,140 @@ public class Board {
 
     if (inOld.name().equals("king")) {
       //right 
-      if((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)){
+      if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
         return true;
       }
     }
+
+    if (inOld.name().equals("queen")) {
+      int amountBlocking = 0;
+      int amountBlock = 0;
+      boolean blocking = false;
+      if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
+        return true;
+      }
+            boolean moveVert = false;
+      boolean moveHor = false;
+      //making sure its horizontal/vertical
+      if (firstX == lastX && firstY != lastY) {
+        moveVert = true;
+      } else if (firstY == lastY && firstX != lastX) {
+        moveHor = true;
+      }
+      //check if hitting something when moving horizontal
+      if (moveHor) {
+        for (int j = firstX; j < lastX; j++) { //collision right
+          if (spaces[firstY][j].isEmpty() == false && amountBlock >= 0) {
+            amountBlock++;
+            blocking = true;
+          }
+        }
+        if (amountBlock == 1 || amountBlock == 0 && !spaces[firstY][lastX].isEmpty()) {
+          blocking = false;
+        }
+
+        for (int j = lastX; j < firstX; j++) { //collision left
+          if (spaces[firstY][j].isEmpty() == false && amountBlock >= 0) {
+            amountBlock++;
+            blocking = true;
+          }
+        }
+        if (amountBlock == 1 && !spaces[firstY][lastX].isEmpty()) {
+          blocking = false;
+        }
+      }
+      //check collision when moving vertical
+      if (moveVert) {
+        for (int j = firstY; j < lastY; j++) { //top to bottom
+          if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
+            amountBlock++;
+            blocking = true;
+          }
+        }
+        if (amountBlock == 1 || amountBlock == 0 && !spaces[firstY][lastX].isEmpty()) {
+          blocking = false;
+        }
+
+        for (int j = lastY; j < firstY; j++) { //bottom to top
+          if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
+            print(spaces[j][firstX].getPiece().name());
+            amountBlock++;
+            blocking = true;
+          }
+        }
+        if (amountBlock == 1 && spaces[firstX][lastY].isEmpty()) {
+          blocking = false;
+        }
+      }  
+
+      //valid movement checker
+      if (blocking == true) {
+        return false;
+      } else if (moveHor || moveVert) {
+        return true;
+      }
+      int tempX = abs(firstX - lastX);
+      int tempY = abs(firstY - lastY);
+      if (tempX == tempY) {
+        //top left
+        if (firstX > lastX && firstY > lastY) {
+          while (firstX != lastX  && firstY != lastY ) {
+            firstX--;
+            firstY--;
+            if (spaces[firstY][firstX].isEmpty() == false ) {
+              print(spaces[firstY][firstX].getPiece().name());
+              blocking = true;
+              amountBlocking++;
+              if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+                blocking = false;
+              }
+            }
+          }
+        } else if (firstX < lastX && firstY > lastY) { //top Right
+          while (firstX != lastX  && firstY != lastY ) {
+            firstX++;
+            firstY--;
+            if (spaces[firstY][firstX].isEmpty() == false ) {
+              print(spaces[firstY][firstX].getPiece().name());
+              blocking = true;
+              amountBlocking++;
+              if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+                blocking = false;
+              }
+            }
+          }
+        } else if (firstX > lastX && lastY > firstY) { //bottom left
+          while (firstX != lastX  && firstY != lastY ) {
+            firstX--;
+            firstY++;
+            if (spaces[firstY][firstX].isEmpty() == false ) {
+              print(spaces[firstY][firstX].getPiece().name());
+              blocking = true;
+              amountBlocking++;
+              if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+                blocking = false;
+              }
+            }
+          }
+        } else if (firstX < lastX && firstY < lastY) { //bottom right
+          firstX++;
+          firstY++;
+          if (spaces[firstY][firstX].isEmpty() == false ) {
+            print(spaces[firstY][firstX].getPiece().name());
+            blocking = true;
+            amountBlocking++;
+            if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+              blocking = false;
+            }
+          }
+        }
+
+        if (blocking) {
+          return false;
+        } else return true;
+      }
+    }
+
 
     if (inOld.name().equals("rook")) {
       boolean moveVert = false;
@@ -278,10 +408,70 @@ public class Board {
     }
 
     if (inOld.name().equals("bishop")) {
+      boolean blocking = false;
+      int amountBlocking = 0;
       int tempX = abs(firstX - lastX);
       int tempY = abs(firstY - lastY);
       if (tempX == tempY) {
+        //top left
+        if (firstX > lastX && firstY > lastY) {
+          while (firstX != lastX  && firstY != lastY ) {
+            firstX--;
+            firstY--;
+            if (spaces[firstY][firstX].isEmpty() == false ) {
+              print(spaces[firstY][firstX].getPiece().name());
+              blocking = true;
+              amountBlocking++;
+              if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+                blocking = false;
+              }
+            }
+          }
+        } else if (firstX < lastX && firstY > lastY) { //top Right
+          while (firstX != lastX  && firstY != lastY ) {
+            firstX++;
+            firstY--;
+            if (spaces[firstY][firstX].isEmpty() == false ) {
+              print(spaces[firstY][firstX].getPiece().name());
+              blocking = true;
+              amountBlocking++;
+              if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+                blocking = false;
+              }
+            }
+          }
+        } else if (firstX > lastX && lastY > firstY) { //bottom left
+          while (firstX != lastX  && firstY != lastY ) {
+            firstX--;
+            firstY++;
+            if (spaces[firstY][firstX].isEmpty() == false ) {
+              print(spaces[firstY][firstX].getPiece().name());
+              blocking = true;
+              amountBlocking++;
+              if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+                blocking = false;
+              }
+            }
+          }
+        } else if (firstX < lastX && firstY < lastY) { //bottom right
+          firstX++;
+          firstY++;
+          if (spaces[firstY][firstX].isEmpty() == false ) {
+            print(spaces[firstY][firstX].getPiece().name());
+            blocking = true;
+            amountBlocking++;
+            if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+              blocking = false;
+            }
+          }
+        }
+
+        if (blocking) {
+          return false;
+        } else return true;
       }
+
+      return false;
     }
     //return true;
     return false;
