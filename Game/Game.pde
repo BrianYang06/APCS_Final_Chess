@@ -32,11 +32,20 @@ String mouseSquare(int x, int y){
 void mouseClicked() {
   if (tit == false) {
      if (CLICK_MODE == FIRST){
-      first = mouseSquare(mouseX, mouseY);
+      int x = mouseX;
+      int t = mouseY;
+      first = mouseSquare(x, t);
+      textSize(15);
+      fill(255);
+      rect(840, 25, 200, 15);
+      fill(0);
+      text("Selected:" + b.squareAt(t/100, x/100).getPiece().name(), 850, 40);
       println(first);
       CLICK_MODE++;
       // text(first, 800, 800);
     }else if (CLICK_MODE == LOC){
+      fill(255);
+      rect(840, 25, 200, 15);
       String loc = mouseSquare(mouseX, mouseY);
       CLICK_MODE=0;
       // text(first + " " + loc, width - 50, width - 50);
