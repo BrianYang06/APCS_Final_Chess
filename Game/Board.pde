@@ -1,5 +1,5 @@
 public class Board {
-  int bLength = width - 50;
+  int bLength = 800;
   Square[][] spaces = new Square[8][8];
 
   public Board() {
@@ -9,7 +9,7 @@ public class Board {
   Square squareAt(int x, int y) {
     return spaces[x][y];
   }
-  
+
   public void create() {
     textSize(12);
     background(255);
@@ -20,7 +20,7 @@ public class Board {
     //Creation of the Letters/Numbers
     fill(0);
     int j = 0;
-    for (char i = 'A'; i < 'Z'; i++) {
+    for (char i = 'A'; i < 'I'; i++) {
       text(i, j * bLength/8 + 50, bLength + (height - bLength)/2); 
       j++;
     }
@@ -80,6 +80,12 @@ public class Board {
   }
 
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
+    println("Last X: " + lastX);
+    println("Last Y: " + lastY);
+    println("First Y: " + firstY);
+    println("First X: " + firstX);
+
+
     //piece of same color in last
     Pieces inNew = spaces[lastX][lastY].getOccupant();
     Pieces inOld = spaces[firstX][firstY].getOccupant();
@@ -91,35 +97,42 @@ public class Board {
     }
 
     //out of bounds
-    if (firstX < 0 || firstX > 7 || firstY < 0 || firstY > 7
-      || lastX < 0 || lastX > 7 || lastY < 0 || lastY > 7) {
-      return false;
-    }
+    /*  if (firstX < 0 || firstX > 7 || firstY < 0 || firstY > 7
+     || lastX < 0 || lastX > 7 || lastY < 0 || lastY > 8) {
+     return false;
+     } */
 
     if (inOld.name().equals("pawn")) {
-      if (inOld.col == 255) { //white side
-        if (firstX == lastX + 1 && (firstY == lastY + 1 || firstY == lastY - 1)) { //capturing
-          if (inNew == null || inNew.col != 0) {
-            return false;
+      //return true;
+      if (inOld.col == 255) { //white side basic movement 
+        if (firstX == 6) {
+          if (lastX == 4 && lastY == firstY) {
+            return true;
           }
-        } else if (inNew != null || (firstX != lastX + 1 && spaces[lastX - 1][lastY].getOccupant() != null)){
-          return false;
-        } else if (firstX == 6) {
-          if (firstY != lastY || (firstX != lastX + 1 && firstX != lastX + 2)){
-            return false;
+        } 
+        if (firstX - 1 == lastX && lastY == firstY) {
+                 println(spaces[lastY][lastX].isEmpty());
+                 
+          if(spaces[lastY][lastX].isEmpty()){
+     
+          return true;
           }
-        } else {
-          if (firstY != lastY || firstX != lastX + 1) {
-            return false;
+        }
+        //capturing left/right side
+        if (firstX - 1 == lastX) {
+          if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
+            return true;
           }
         }
       }
+
+
       if (inOld.col == 0) { //black side
         if (firstX == lastX - 1 && (firstY == lastY - 1 || firstY == lastY + 1)) { //capturing
           if (inNew == null || inNew.col != 255) {
             return false;
           }
-        } else if (inNew != null || (firstX != lastX - 1 && spaces[lastX + 1][lastY].getOccupant() != null)){
+        } else if (inNew != null || (firstX != lastX - 1 && spaces[lastX + 1][lastY].getOccupant() != null)) {
           return false;
         } else if (firstX == 1) {
           if (firstY != lastY || (firstX != lastX - 1 && firstX != lastX - 2)) {
@@ -132,44 +145,100 @@ public class Board {
         }
       }
     }
-    
-    if (inOld.name().equals("rook")){
+
+    if (inOld.name().equals("rook")) {
+      boolean moveVert = false;
+      boolean moveHor = false;
       //making sure its horizontal/vertical
-      if (firstX - lastX != 0 && firstY - lastY != 0){
-        return false;
+      if (firstX == lastX) {
+        moveHor = true;
+      } else if (firstY == lastY && firstX != lastX) {
+        moveVert = true;
       }
       //this part is supposed to be for checking for pieces in the way but it doesnt work
-      for (int i = firstX; i < lastX; i++){
-        if (spaces[i][firstY].getPiece() != null){
+      for (int i = firstX; i < lastX; i++) {
+        if (spaces[i][firstY].getPiece() != null) {
           return false;
         }
       }
-      for (int i = firstX; i < lastX; i--){
-        if (spaces[i][firstY].getPiece() != null){
+      for (int i = firstX; i < lastX; i--) {
+        if (spaces[i][firstY].getPiece() != null) {
           return false;
         }
       }
-      for (int i = firstY; i < lastY; i++){
-        if (spaces[firstX][i].getPiece() != null){
+      for (int i = firstY; i < lastY; i++) {
+        if (spaces[firstX][i].getPiece() != null) {
           return false;
         }
       }
-      for (int i = firstY; i < lastY; i--){
-        if (spaces[firstX][i].getPiece() != null){
+      for (int i = firstY; i < lastY; i--) {
+        if (spaces[firstX][i].getPiece() != null) {
           return false;
         }
       }
     }
-    
-    if (inOld.name().equals("knight")){
-      if (firstX - lastX == 0 || firstY - lastY == 0){
+
+    if (inOld.name().equals("knight")) {
+      if (firstX - lastX == 0 || firstY - lastY == 0) {
         return false;
       }
-      if (abs(firstX - lastX) * abs(firstY - lastY) == 3){
-        return false;
+      if ((firstX - 2) == lastX && firstY - 1 == lastY) {
+        return true;
+      }
+      if ((firstX - 2) == lastX && firstY + 1 == lastY) {
+        return true;
+      }
+      if ((firstX + 2) == lastX && firstY + 1 == lastY) {
+        return true;
+      }
+      if ((firstX + 2) == lastX && firstY - 1 == lastY) {
+        return true;
+      }
+      if ((firstX + 1) == lastX && firstY + 2 == lastY) {
+        return true;
+      }
+      if (firstX - 1 == lastX && firstY + 2 == lastY) {
+        return true;
+      }
+      if (firstX + 1 == lastX && firstY - 2 == lastY) {
+        return true;
+      }
+      if (firstX - 1 == lastX && firstY - 2 == lastY) {
+        return true;
       }
     }
-    return true;
+
+    if (inOld.name().equals("bishop")) {
+
+      int tempX = abs(firstX - lastX);
+      int tempY = abs(firstY - lastY);
+      if (tempX == tempY) {
+        boolean x = true;
+        //check left up
+        if (firstX >lastX && firstY > lastY) {
+          println(x);
+          int tempx = firstX;
+          int tempy = firstY;
+          while (tempx != lastX && tempy != lastY) {
+            tempx--;
+            tempy--;
+            print(tempx + " " + tempy);
+            if (!spaces[tempy][tempx].isEmpty()) {
+              println(spaces[tempy][tempx].getPiece().name()); 
+              //  println("has something empty");
+              x = false;
+            }
+          }
+          print(x);
+          if (x == false) {
+            return x;
+          } else return true;
+        }
+        return x;
+      }
+    }
+    //return true;
+    return false;
   }
 
   int lToN(String x) {
@@ -220,6 +289,5 @@ public class Board {
       } else alternate = !alternate;
     }
     fill(0);
-
   }
 }
