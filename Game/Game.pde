@@ -1,9 +1,10 @@
 import javax.swing.*;
 Board b;
-boolean tit = false;
+boolean title = false;
 Player[] players = new Player[2];
 int current = 0;
 int CLICK_MODE;
+boolean whoseTurn = true;
 final int FIRST = 0;
 final int LOC = 1;
 final int NEXT_PLAY = 2;
@@ -15,14 +16,13 @@ void setup() {
 }
 
 void draw() {
-  if (!tit) {
+  if (!title) {
     b.update();
     //text(players[current].getName() + "Turn", 400, 800);
   }
-
 }
 
-String mouseSquare(int x, int y){
+String mouseSquare(int x, int y) {
   char c = char(65 + (x / 100));
   y = y / 100 + 1;
   String sq = c + str(y);
@@ -30,38 +30,34 @@ String mouseSquare(int x, int y){
 }
 
 void mouseClicked() {
-  if (tit == false) {
-     if (CLICK_MODE == FIRST){
+  if (title == false) {
+    if (CLICK_MODE == FIRST) {
       int x = mouseX;
       int t = mouseY;
-      if(!b.squareAt(t/100, x/100).isEmpty())    {
-      first = mouseSquare(x, t);
-      textSize(15);
+      if (!b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 255) {
+        first = mouseSquare(x, t);
+        textSize(15);
+        fill(255);
+        rect(835, 25, 200, 40);
+        fill(0);
+        String pColor;
+        if (b.squareAt(t/100, x/100).getPiece().col == 0) {
+          pColor = "Black";
+        } else pColor = "White";
+        text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
+        println(first);
+        CLICK_MODE++;
+      }
+    } else if (CLICK_MODE == LOC) {
+      whoseTurn = !whoseTurn;
       fill(255);
-      rect(840, 25, 200, 20);
-      fill(0);
-      text("Selected:" + b.squareAt(t/100, x/100).getPiece().name(), 850, 40);
-      println(first);
-      CLICK_MODE++;
-     }
-      
-    }else if (CLICK_MODE == LOC){
-      fill(255);
-      rect(840, 25, 200, 20);
+      rect(835, 25, 200, 40);
       String loc = mouseSquare(mouseX, mouseY);
       CLICK_MODE=0;
-      // text(first + " " + loc, width - 50, width - 50);
-      b.move(first, loc);
+      if (!loc.equals(first)) {
+        b.move(first, loc);
+      }
     }
-    //else if (CLICK_MODE == NEXT_PLAY){
-    //  text(players[current].getName(), 800, 800);
-    //  if (current == 0){
-    //    current++;
-    //  }else{
-    //    current = 0;
-    //  }
-    //  CLICK_MODE = 0;
-    //}
   }
 }
 
@@ -87,24 +83,23 @@ boolean validIn(String x) { //have this check if input commands are valid
 
 void startGame() {
   b = new Board();
-  tit = false;
+  title = false;
 }
 
 
 void keyPressed() {
   if (key == ' ') {
     startGame();
-   // String name1 = "";
-   // String name2 = "";
-   //while (name1.length() == 0) {
-   //   name1 = getS("Enter Player 1 Name: ");
-   // }
-   // while (name2.length() == 0) {
-   //   name2 = getS("Enter Player 2 Name: ");
-   // }
-   // players[0] = new Player(name1, 255);
-   // players[1] = new Player(name2, 0);
-    
+    // String name1 = "";
+    // String name2 = "";
+    //while (name1.length() == 0) {
+    //   name1 = getS("Enter Player 1 Name: ");
+    // }
+    // while (name2.length() == 0) {
+    //   name2 = getS("Enter Player 2 Name: ");
+    // }
+    // players[0] = new Player(name1, 255);
+    // players[1] = new Player(name2, 0);
   } else if (key == '`') {
     title();
     startGame();
@@ -114,8 +109,7 @@ void keyPressed() {
 }
 
 void title() {
- 
-  tit = true;
+  title = true;
   background(0);
   PImage titlescreen = loadImage("chess.jpeg");
   image(titlescreen, 110, 248);
