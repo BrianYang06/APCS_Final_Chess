@@ -34,6 +34,7 @@ void mouseClicked() {
      if (CLICK_MODE == FIRST){
       int x = mouseX;
       int t = mouseY;
+      if(!b.squareAt(t/100, x/100).isEmpty()){
       first = mouseSquare(x, t);
       textSize(15);
       fill(255);
@@ -42,7 +43,8 @@ void mouseClicked() {
       text("Selected:" + b.squareAt(t/100, x/100).getPiece().name(), 850, 40);
       println(first);
       CLICK_MODE++;
-      // text(first, 800, 800);
+     }
+      
     }else if (CLICK_MODE == LOC){
       fill(255);
       rect(840, 25, 200, 15);
