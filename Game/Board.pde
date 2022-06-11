@@ -174,6 +174,13 @@ public class Board {
       }
     }
 
+    if (inOld.name().equals("king")) {
+      //right 
+      if((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)){
+        return true;
+      }
+    }
+
     if (inOld.name().equals("rook")) {
       boolean moveVert = false;
       boolean moveHor = false;
@@ -209,17 +216,6 @@ public class Board {
       }
       //check collision when moving vertical
       if (moveVert) {
-
-        /*   for (int j = lastY; j < firstY; j++) { //top to bottom
-         if (spaces[j][0].isEmpty() == false && amountBlock >= 0) {
-         amountBlock++;
-         blocking = true;
-         }
-         }
-         if (amountBlock == 1 || amountBlock == 0 && !spaces[firstY][lastX].isEmpty()) {
-         blocking = false;
-         } */
-
         for (int j = firstY; j < lastY; j++) { //top to bottom
           if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
             amountBlock++;
@@ -239,7 +235,7 @@ public class Board {
         }
         if (amountBlock == 1 && spaces[firstX][lastY].isEmpty()) {
           blocking = false;
-        } 
+        }
       }  
 
       //print(blocking);
@@ -282,32 +278,9 @@ public class Board {
     }
 
     if (inOld.name().equals("bishop")) {
-
       int tempX = abs(firstX - lastX);
       int tempY = abs(firstY - lastY);
       if (tempX == tempY) {
-        boolean x = true;
-        //check left up
-        if (firstX >lastX && firstY > lastY) {
-          println(x);
-          int tempx = firstX;
-          int tempy = firstY;
-          while (tempx != lastX && tempy != lastY) {
-            tempx--;
-            tempy--;
-            print(tempx + " " + tempy);
-            if (!spaces[tempy][tempx].isEmpty()) {
-              println(spaces[tempy][tempx].getPiece().name()); 
-              //  println("has something empty");
-              x = false;
-            }
-          }
-          print(x);
-          if (x == false) {
-            return x;
-          } else return true;
-        }
-        return x;
       }
     }
     //return true;
@@ -369,10 +342,10 @@ public class Board {
           if (spaces[i][k].getOccupant() != null) {
             textSize(10);
             text(spaces[i][k].getOccupant().name(), k * 100, i * 100 + 100);
-          } else if (spaces[i][k].getOccupant() == null) {
-
-            text("null", k * 100, i * 100 + 100);
-          }
+          } 
+          /*else if (spaces[i][k].getOccupant() == null) {
+           text("null", k * 100, i * 100 + 100);
+           }*/
         }
       }
     }

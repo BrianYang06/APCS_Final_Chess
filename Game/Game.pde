@@ -34,11 +34,11 @@ void mouseClicked() {
      if (CLICK_MODE == FIRST){
       int x = mouseX;
       int t = mouseY;
-      if(!b.squareAt(t/100, x/100).isEmpty()){
+      if(!b.squareAt(t/100, x/100).isEmpty())    {
       first = mouseSquare(x, t);
       textSize(15);
       fill(255);
-      rect(840, 25, 200, 15);
+      rect(840, 25, 200, 20);
       fill(0);
       text("Selected:" + b.squareAt(t/100, x/100).getPiece().name(), 850, 40);
       println(first);
@@ -47,7 +47,7 @@ void mouseClicked() {
       
     }else if (CLICK_MODE == LOC){
       fill(255);
-      rect(840, 25, 200, 15);
+      rect(840, 25, 200, 20);
       String loc = mouseSquare(mouseX, mouseY);
       CLICK_MODE=0;
       // text(first + " " + loc, width - 50, width - 50);
@@ -114,6 +114,7 @@ void keyPressed() {
 }
 
 void title() {
+ 
   tit = true;
   background(0);
   PImage titlescreen = loadImage("chess.jpeg");
