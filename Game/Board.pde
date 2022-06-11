@@ -187,26 +187,63 @@ public class Board {
       boolean blocking = false;
       int amountBlock = 0;
       if (moveHor) {
-        for (int j = firstX; j < lastX; j++) {
+        for (int j = firstX; j < lastX; j++) { //collision right
           if (spaces[firstY][j].isEmpty() == false && amountBlock >= 0) {
             amountBlock++;
             blocking = true;
           }
         }
-        if(amountBlock == 1 && !spaces[firstY][lastX].isEmpty()){
+        if (amountBlock == 1 || amountBlock == 0 && !spaces[firstY][lastX].isEmpty()) {
+          blocking = false;
+        }
+
+        for (int j = lastX; j < firstX; j++) { //collision left
+          if (spaces[firstY][j].isEmpty() == false && amountBlock >= 0) {
+            amountBlock++;
+            blocking = true;
+          }
+        }
+        if (amountBlock == 1 && !spaces[firstY][lastX].isEmpty()) {
           blocking = false;
         }
       }
       //check collision when moving vertical
-      /*if (moveVert) {
-       for (int j = lastY; j < firstY; j++) {
-       //print(spaces[j][0].getPiece().name());
-       if (spaces[j][0].isEmpty() == false) {
-       blocking = true;
-       }
-       }
-       } */
+      if (moveVert) {
 
+        /*   for (int j = lastY; j < firstY; j++) { //top to bottom
+         if (spaces[j][0].isEmpty() == false && amountBlock >= 0) {
+         amountBlock++;
+         blocking = true;
+         }
+         }
+         if (amountBlock == 1 || amountBlock == 0 && !spaces[firstY][lastX].isEmpty()) {
+         blocking = false;
+         } */
+
+        for (int j = firstY; j < lastY; j++) { //top to bottom
+          if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
+            amountBlock++;
+            blocking = true;
+          }
+        }
+        if (amountBlock == 1 || amountBlock == 0 && !spaces[firstY][lastX].isEmpty()) {
+          blocking = false;
+        }
+
+        for (int j = lastY; j < firstY; j++) { //bottom to top
+          if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
+            print(spaces[j][firstX].getPiece().name());
+            amountBlock++;
+            blocking = true;
+          }
+        }
+        if (amountBlock == 1 && spaces[firstX][lastY].isEmpty()) {
+          blocking = false;
+        } 
+      }  
+
+      //print(blocking);
+      //valid movement checker
       if (blocking == true) {
         return false;
       } else if (moveHor || moveVert) {
