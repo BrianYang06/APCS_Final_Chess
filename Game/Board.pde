@@ -210,28 +210,28 @@ public class Board {
       if (firstX - lastX == 0 || firstY - lastY == 0) {
         return false;
       }
-      if ((firstX - 2) == lastX && firstY - 1 == lastY) {
+      if (firstX - 1 == lastX && firstY - 2 == lastY) { //top left
         return true;
       }
-      if ((firstX - 2) == lastX && firstY + 1 == lastY) {
+      if (firstX + 1 == lastX && firstY - 2 == lastY) { //top right
         return true;
       }
-      if ((firstX + 2) == lastX && firstY + 1 == lastY) {
+      if (firstX - 2 == lastX && firstY - 1 == lastY) { //left up
         return true;
       }
-      if ((firstX + 2) == lastX && firstY - 1 == lastY) {
+      if (firstX - 2 == lastX && firstY + 1 == lastY) { //left down
         return true;
       }
-      if ((firstX + 1) == lastX && firstY + 2 == lastY) {
+      if (firstX - 1 == lastX && firstY + 2 == lastY) { //bottom left
         return true;
       }
-      if (firstX - 1 == lastX && firstY + 2 == lastY) {
+      if (firstX + 1 == lastX && firstY + 2 == lastY) { //bottom right
         return true;
       }
-      if (firstX + 1 == lastX && firstY - 2 == lastY) {
+      if (firstX + 2 == lastX && firstY - 1 == lastY) { //right down
         return true;
       }
-      if (firstX - 1 == lastX && firstY - 2 == lastY) {
+      if (firstX + 2 == lastX && firstY + 1 == lastY) { //right up
         return true;
       }
     }
