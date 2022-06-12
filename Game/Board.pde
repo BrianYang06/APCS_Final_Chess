@@ -130,6 +130,11 @@ public class Board {
         return false;
       }
     }
+    
+    //cannot capture kings
+    if (inNew != null && inNew.name().equals("king")){
+      return false;
+    }
 
     //out of bounds
     /*  if (firstX < 0 || firstX > 7 || firstY < 0 || firstY > 7
