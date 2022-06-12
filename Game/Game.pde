@@ -19,6 +19,13 @@ void draw() {
   if (!title) {
     b.update();
     //text(players[current].getName() + "Turn", 400, 800);
+    fill(255);
+    rect(835, 400, 200, 45);
+    textSize(30);
+    fill(0);
+    if (!whoseTurn) {
+      text("black", 910, 425);
+    } else text("white", 910, 425);
   }
 }
 
@@ -31,31 +38,54 @@ String mouseSquare(int x, int y) {
 
 void mouseClicked() {
   if (title == false) {
+
     if (CLICK_MODE == FIRST) {
       int x = mouseX;
       int t = mouseY;
-      if (!b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 255) {
-        first = mouseSquare(x, t);
-        textSize(15);
-        fill(255);
-        rect(835, 25, 200, 40);
-        fill(0);
-        String pColor;
-        if (b.squareAt(t/100, x/100).getPiece().col == 0) {
-          pColor = "Black";
-        } else pColor = "White";
-        text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
-        println(first);
-        CLICK_MODE++;
+      if (whoseTurn) {
+        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 255) {
+          first = mouseSquare(x, t);
+          textSize(15);
+          fill(255);
+          rect(835, 25, 200, 40);
+          fill(0);
+          String pColor;
+          if (b.squareAt(t/100, x/100).getPiece().col == 0) {
+            pColor = "Black";
+          } else pColor = "White";
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
+          println(first);
+          CLICK_MODE++;
+        }
+      } else {
+        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 0) {
+          first = mouseSquare(x, t);
+
+          textSize(15);
+          fill(255);
+          rect(835, 25, 200, 40);
+          fill(0);
+          String pColor;
+          if (b.squareAt(t/100, x/100).getPiece().col == 0) {
+            pColor = "Black";
+          } else pColor = "White";
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
+          println(first);
+          CLICK_MODE++;
+        }
       }
     } else if (CLICK_MODE == LOC) {
-      whoseTurn = !whoseTurn;
-      fill(255);
-      rect(835, 25, 200, 40);
-      String loc = mouseSquare(mouseX, mouseY);
-      CLICK_MODE=0;
-      if (!loc.equals(first)) {
-        b.move(first, loc);
+      int finalx = mouseX;
+      int finaly = mouseY;
+      if (finalx < 800 && finaly < 800) {
+        fill(255);
+        rect(835, 25, 200, 40);
+        print(finalx + " " + finaly);
+        String loc = mouseSquare(finalx, finaly);
+        CLICK_MODE=0;
+        if (!loc.equals(first)) {
+          b.move(first, loc);
+        }
       }
     }
   }

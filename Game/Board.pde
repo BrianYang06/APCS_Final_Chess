@@ -79,9 +79,11 @@ public class Board {
     textSize(15);
     text("Graveyard", 925, 95);
     fill(255);
+    rect(835, 400, 200, 45);
     rect(835, 25, 200, 40);
     fill(0);
-    text("WhoseTurn", 918, 21);
+    text("Selected Piece", 895, 21);
+    text("Whose Turn", 910, 395);
   }
 
   void move(String first, String place) {
@@ -138,6 +140,7 @@ public class Board {
       if (inOld.col == 255) { //2 jump from start
         if (firstY == 6) {
           if (lastY == 4 && lastX == firstX) {
+            whoseTurn = !whoseTurn;
             return true;
           }
         } 
@@ -145,6 +148,7 @@ public class Board {
         if (firstY - 1 == lastY && lastX == firstX) {
           println(spaces[lastY][lastX].getOccupant());
           if (spaces[lastY][lastX].isEmpty()) {
+            whoseTurn = !whoseTurn;
             return true;
           }
         }
@@ -152,6 +156,7 @@ public class Board {
         if (firstX + 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
             consumed(lastY, lastX); 
+            whoseTurn = !whoseTurn;
             return true;
           }
         }
@@ -159,6 +164,7 @@ public class Board {
         if (firstX - 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
             consumed(lastY, lastX); 
+            whoseTurn = !whoseTurn;
             return true;
           }
         }
@@ -168,12 +174,14 @@ public class Board {
       if (inOld.col == 0) { //black side
         if (firstY == 1) { //2 jump
           if (lastY == 3 && lastX == firstX) {
+            whoseTurn = !whoseTurn;
             return true;
           }
         }
         if (firstY + 1 == lastY && lastX == firstX) { //single tile move
           println(spaces[lastY][lastX].getOccupant());
           if (spaces[lastY][lastX].isEmpty()) {
+            whoseTurn = !whoseTurn;
             return true;
           }
         }
@@ -181,6 +189,7 @@ public class Board {
         if (firstX + 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
             consumed(lastY, lastX); 
+            whoseTurn = !whoseTurn;
             return true;
           }
         }
@@ -188,6 +197,7 @@ public class Board {
         if (firstX - 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
             consumed(lastY, lastX); 
+            whoseTurn = !whoseTurn;
             return true;
           }
         }
@@ -198,6 +208,7 @@ public class Board {
       //right 
       if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
         consumed(lastY, lastX); 
+        whoseTurn = !whoseTurn;
         return true;
       }
     }
@@ -208,6 +219,7 @@ public class Board {
       boolean blocking = false;
       if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
         consumed(lastY, lastX); 
+        whoseTurn = !whoseTurn;
         return true;
       }
       boolean moveVert = false;
@@ -269,6 +281,7 @@ public class Board {
         return false;
       } else if (moveHor || moveVert) {
         consumed(lastY, lastX); 
+        whoseTurn = !whoseTurn;
         return true;
       }
       int tempX = abs(firstX - lastX);
@@ -327,6 +340,7 @@ public class Board {
           return false;
         } else {
           consumed(lastY, lastX); 
+          whoseTurn = !whoseTurn;
           return true;
         }
       }
@@ -395,6 +409,7 @@ public class Board {
       if (blocking == true) {
         return false;
       } else if (moveHor || moveVert) {
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX); 
         return true;
       }
@@ -402,38 +417,47 @@ public class Board {
 
     if (inOld.name().equals("knight")) {
       if (firstX - lastX == 0 || firstY - lastY == 0) {
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return false;
       }
       if (firstX - 1 == lastX && firstY - 2 == lastY) { //top left
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY - 2 == lastY) { //top right
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY - 1 == lastY) { //left up
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY + 1 == lastY) { //left down
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return true;
       }
       if (firstX - 1 == lastX && firstY + 2 == lastY) { //bottom left
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY + 2 == lastY) { //bottom right
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY - 1 == lastY) { //right down
+        whoseTurn = !whoseTurn;
         consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY + 1 == lastY) { //right up
+        whoseTurn = !whoseTurn; 
         consumed(lastY, lastX);
         return true;
       }
@@ -444,7 +468,7 @@ public class Board {
       int amountBlocking = 0;
       int tempX = abs(firstX - lastX);
       int tempY = abs(firstY - lastY);
-      if (tempX == tempY) {
+      if (tempX == tempY) { 
         //top left
         if (firstX > lastX && firstY > lastY) {
           while (firstX != lastX  && firstY != lastY ) {
@@ -499,6 +523,7 @@ public class Board {
         if (blocking) {
           return false;
         } else {
+          whoseTurn = !whoseTurn;
           consumed(lastY, lastX); 
           return true;
         }
