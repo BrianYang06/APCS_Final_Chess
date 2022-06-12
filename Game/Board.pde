@@ -2,9 +2,10 @@ public class Board {
   int bLength = 800;
   Square[][] spaces = new Square[8][8];
   ArrayList<Pieces> dead = new ArrayList<Pieces>();
-  String bKingLoc;
-  String wKingLoc;
-  
+  ArrayList<String> history = new ArrayList<String>();
+  //  String bKingLoc;
+  //String wKingLoc;
+
   public Board() {
     create();
   }
@@ -38,7 +39,7 @@ public class Board {
     spaces[0][2] = new Square(2, 0, new Bishop(0));
     spaces[0][3] = new Square(3, 0, new Queen(0));
     spaces[0][4] = new Square(4, 0, new King(0));
-    bKingLoc = "04";
+    //bKingLoc = "04";
     spaces[0][5] = new Square(5, 0, new Bishop(0));
     spaces[0][6] = new Square(6, 0, new Knight(0));
     spaces[0][7] = new Square(7, 0, new Rook(0));
@@ -54,7 +55,7 @@ public class Board {
     spaces[7][2] = new Square(2, 7, new Bishop(255));
     spaces[7][3] = new Square(3, 7, new Queen(255));
     spaces[7][4] = new Square(4, 7, new King(255));
-    wKingLoc = "74";
+    //wKingLoc = "74";
     spaces[7][5] = new Square(5, 7, new Bishop(255));
     spaces[7][6] = new Square(6, 7, new Knight(255));
     spaces[7][7] = new Square(7, 7, new Rook(255));
@@ -79,8 +80,6 @@ public class Board {
       }
     }
 
-
-    //----------------------------------------------------------
     createCheckered();
 
     textSize(15);
@@ -88,9 +87,12 @@ public class Board {
     fill(255);
     rect(835, 400, 200, 45);
     rect(835, 25, 200, 40);
+    rect(835, 525, 200, 45);
     fill(0);
     text("Selected Piece", 895, 21);
     text("Whose Turn", 910, 395);
+    text("Winner", 945, 520);
+    text("Press f to forfeit", 850, 780);
   }
 
   void move(String first, String place) {
@@ -103,8 +105,7 @@ public class Board {
     int pStringNum = lToN(pLetter);
     int pNum = Integer.parseInt(place.substring(1)) - 1;
 
-    if (canMove(fStringNum, fNum, pStringNum, pNum) && 
-    !isChecked(fStringNum, fNum, pStringNum, pNum)) {
+    if (canMove(fStringNum, fNum, pStringNum, pNum)) {
       Pieces x = spaces[fNum][fStringNum].getPiece();
       spaces[fNum][fStringNum].setPiece(null);
       spaces[pNum][pStringNum].setPiece(x);
@@ -116,69 +117,71 @@ public class Board {
       dead.add(spaces[x][y].getOccupant());
     }
   }
-  
+
+  /*
   boolean isChecked(int firstX, int firstY, int lastX, int lastY){
-    Pieces inOld = spaces[firstY][firstX].getOccupant();
-    int kingLocX;
-    int kingLocY;
-    if (inOld.col == 255){
-      kingLocX = int(wKingLoc.substring(0,1));
-      kingLocY = int(wKingLoc.substring(1));
-    }else{
-      kingLocX = int(bKingLoc.substring(0,1));
-      kingLocY = int(bKingLoc.substring(1));
-    }
-    boolean pieceFound = false;
-    for(int i = kingLocX; i < 8 && !pieceFound; i++){
-      if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
-        if (canMove(i, kingLocY, kingLocX, kingLocY)){
-          return true;
-        }pieceFound = true;
-      }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-        pieceFound = true;
-      }   
-    }
-    pieceFound = false;
-    for(int i = kingLocY; i < 8 && !pieceFound; i++){
-      if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
-        if (canMove(kingLocX, i, kingLocX, kingLocY)){
-          return true;
-        }pieceFound = true;
-      }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-        pieceFound = true;
-      } 
-    }
-    pieceFound = false;
-    for(int i = kingLocX; i >= 0 && !pieceFound; i--){
-      if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
-        if (canMove(i, kingLocY, kingLocX, kingLocY)){
-          return true;
-        }pieceFound = true;
-      }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-        pieceFound = true;
-      } 
-    }
-    pieceFound = false;
-    for(int i = kingLocY; i >= 0 && !pieceFound; i--){
-      if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
-        if (canMove(kingLocX, i, kingLocX, kingLocY)){
-          return true;
-        }pieceFound = true;
-      }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-        pieceFound = true;
-      } 
-    }
-    
-    return false;
-  }
+   Pieces inOld = spaces[firstY][firstX].getOccupant();
+   int kingLocX;
+   int kingLocY;
+   if (inOld.col == 255){
+   kingLocX = int(wKingLoc.substring(0,1));
+   kingLocY = int(wKingLoc.substring(1));
+   }else{
+   kingLocX = int(bKingLoc.substring(0,1));
+   kingLocY = int(bKingLoc.substring(1));
+   }
+   boolean pieceFound = false;
+   for(int i = kingLocX; i < 8 && !pieceFound; i++){
+   if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
+   if (canMove(i, kingLocY, kingLocX, kingLocY)){
+   return true;
+   }pieceFound = true;
+   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
+   pieceFound = true;
+   }   
+   }
+   pieceFound = false;
+   for(int i = kingLocY; i < 8 && !pieceFound; i++){
+   if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
+   if (canMove(kingLocX, i, kingLocX, kingLocY)){
+   return true;
+   }pieceFound = true;
+   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
+   pieceFound = true;
+   } 
+   }
+   pieceFound = false;
+   for(int i = kingLocX; i >= 0 && !pieceFound; i--){
+   if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
+   if (canMove(i, kingLocY, kingLocX, kingLocY)){
+   return true;
+   }pieceFound = true;
+   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
+   pieceFound = true;
+   } 
+   }
+   pieceFound = false;
+   for(int i = kingLocY; i >= 0 && !pieceFound; i--){
+   if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
+   if (canMove(kingLocX, i, kingLocX, kingLocY)){
+   return true;
+   }pieceFound = true;
+   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
+   pieceFound = true;
+   } 
+   }
+   
+   return false;
+   } */
+
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
-
+    /*
     println("Last X: " + lastX);
-    println("Last Y: " + lastY);
-    println("First Y: " + firstY);
-    println("First X: " + firstX);
-
-
+     println("Last Y: " + lastY);
+     println("First Y: " + firstY);
+     println("First X: " + firstX);
+     
+     */
 
     //piece of same color in last
     Pieces inNew = spaces[lastY][lastX].getOccupant();
@@ -192,6 +195,11 @@ public class Board {
     
     //cannot capture kings
     if (inNew != null && inNew.name().equals("king")){
+      return false;
+    }
+
+    //cannot capture kings
+    if (inNew != null && inNew.name().equals("king")) {
       return false;
     }
 
@@ -466,7 +474,6 @@ public class Board {
 
         for (int j = lastY; j < firstY; j++) { //bottom to top
           if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
-            print(spaces[j][firstX].getPiece().name());
             amountBlock++;
             blocking = true;
           }
@@ -594,7 +601,6 @@ public class Board {
 
         for (int j = lastY; j < firstY; j++) { //bottom to top
           if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
-            print(spaces[j][firstX].getPiece().name());
             amountBlock++;
             blocking = true;
           }
@@ -604,7 +610,6 @@ public class Board {
         }
       }  
 
-      //print(blocking);
       //valid movement checker
       if (blocking == true) {
         return false;
@@ -711,7 +716,6 @@ public class Board {
             firstX++;
             firstY++;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print("sus");
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -780,7 +784,7 @@ public class Board {
       }
     }
 
-    if (wKing == false) {//black wins
+    if (wKing == false || timerW == 0) {//black wins
       rectMode(RADIUS);
       rect(width/2, height/2, 150, 150);
       textSize(50);
@@ -790,7 +794,7 @@ public class Board {
       textSize(30);
       text("Press ` to Restart", 370, 550);
       rectMode(CORNER);
-    } else if (bKing == false) {//white wins
+    } else if (bKing == false || timerB == 0) {//white wins
       rectMode(RADIUS);
       rect(width/2, height/2, 150, 150);
       textSize(50);
