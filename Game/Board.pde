@@ -40,11 +40,11 @@ public class Board {
     spaces[0][6] = new Square(6, 0, new Knight(0));
     spaces[0][7] = new Square(7, 0, new Rook(0));
     for (int i = 0; i <= 7; i++) {
-      spaces[1][i] = new Square(i, 1, new Pawn(0));
+      spaces[1][i] = new Square(i, 1, new Pawn(255));
     }
 
     for (int i = 0; i <= 7; i++) {
-      spaces[6][i] = new Square(i, 6, new Pawn(255));
+      spaces[6][i] = new Square(i, 6, new Pawn(0));
     }
     spaces[7][0] = new Square(0, 7, new Rook(255));
     spaces[7][1] = new Square(1, 7, new Knight(255));
@@ -113,12 +113,12 @@ public class Board {
   }
 
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
-    /*
+
     println("Last X: " + lastX);
-     println("Last Y: " + lastY);
-     println("First Y: " + firstY);
-     println("First X: " + firstX);
-     */
+    println("Last Y: " + lastY);
+    println("First Y: " + firstY);
+    println("First X: " + firstX);
+
 
 
     //piece of same color in last
@@ -151,6 +151,28 @@ public class Board {
         if (firstY - 1 == lastY && lastX == firstX) {
           println(spaces[lastY][lastX].getOccupant());
           if (spaces[lastY][lastX].isEmpty()) {
+            if (lastY == 0) { // pawn Promotion
+              String newPiece = "";
+              boolean rr = true;
+              while (rr) {
+                newPiece = getS("Promote your pawn");
+                newPiece.toLowerCase();
+                if (newPiece.equals("queen")|| newPiece.equals("rook") || newPiece.equals("knight") || newPiece.equals("bishop")) {
+                  rr = false;
+                }
+              }
+              Pieces nPieceObj;
+              if (newPiece.equals("queen")) {
+                nPieceObj = new Queen(255);
+              } else if (newPiece.equals("rook")) {
+                nPieceObj = new Rook(255);
+              } else if (newPiece.equals("knight")) {
+                nPieceObj = new Knight(255);
+              } else {
+                nPieceObj = new Bishop(255);
+              }
+              spaces[firstY][firstX].setPiece(nPieceObj);
+            }
             whoseTurn = !whoseTurn;
             return true;
           }
@@ -160,6 +182,29 @@ public class Board {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
             consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
+            if (lastY == 0) { // pawn Promotion
+              String newPiece = "";
+
+              boolean rr = true;
+              while (rr) {
+                newPiece = getS("Promote your pawn");
+                newPiece.toLowerCase();
+                if (newPiece.equals("queen")|| newPiece.equals("rook") || newPiece.equals("knight") || newPiece.equals("bishop")) {
+                  rr = false;
+                }
+              }
+              Pieces nPieceObj;
+              if (newPiece.equals("queen")) {
+                nPieceObj = new Queen(255);
+              } else if (newPiece.equals("rook")) {
+                nPieceObj = new Rook(255);
+              } else if (newPiece.equals("knight")) {
+                nPieceObj = new Knight(255);
+              } else {
+                nPieceObj = new Bishop(255);
+              }
+              spaces[firstY][firstX].setPiece(nPieceObj);
+            }
             return true;
           }
         }
@@ -168,6 +213,28 @@ public class Board {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
             consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
+            if (lastY == 0) { // pawn Promotion
+              String newPiece = "";
+              boolean rr = true;
+              while (rr) {
+                newPiece = getS("Promote your pawn");
+                newPiece.toLowerCase();
+                if (newPiece.equals("queen")|| newPiece.equals("rook") || newPiece.equals("knight") || newPiece.equals("bishop")) {
+                  rr = false;
+                }
+              }
+              Pieces nPieceObj;
+              if (newPiece.equals("queen")) {
+                nPieceObj = new Queen(255);
+              } else if (newPiece.equals("rook")) {
+                nPieceObj = new Rook(255);
+              } else if (newPiece.equals("knight")) {
+                nPieceObj = new Knight(255);
+              } else {
+                nPieceObj = new Bishop(255);
+              }
+              spaces[firstY][firstX].setPiece(nPieceObj);
+            }
             return true;
           }
         }
@@ -185,6 +252,28 @@ public class Board {
           println(spaces[lastY][lastX].getOccupant());
           if (spaces[lastY][lastX].isEmpty()) {
             whoseTurn = !whoseTurn;
+            if (lastY == 7) { // pawn Promotion
+              String newPiece = "";
+              boolean rr = true;
+              while (rr) {
+                newPiece = getS("Promote your pawn");
+                newPiece.toLowerCase();
+                if (newPiece.equals("queen")|| newPiece.equals("rook") || newPiece.equals("knight") || newPiece.equals("bishop")) {
+                  rr = false;
+                }
+              }
+              Pieces nPieceObj;
+              if (newPiece.equals("queen")) {
+                nPieceObj = new Queen(0);
+              } else if (newPiece.equals("rook")) {
+                nPieceObj = new Rook(0);
+              } else if (newPiece.equals("knight")) {
+                nPieceObj = new Knight(0);
+              } else {
+                nPieceObj = new Bishop(0);
+              }
+              spaces[firstY][firstX].setPiece(nPieceObj);
+            }
             return true;
           }
         }
@@ -193,6 +282,28 @@ public class Board {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
             consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
+            if (lastY == 7) { // pawn Promotion
+              String newPiece = "";
+              boolean rr = true;
+              while (rr) {
+                newPiece = getS("Promote your pawn");
+                newPiece.toLowerCase();
+                if (newPiece.equals("queen")|| newPiece.equals("rook") || newPiece.equals("knight") || newPiece.equals("bishop")) {
+                  rr = false;
+                }
+              }
+              Pieces nPieceObj;
+              if (newPiece.equals("queen")) {
+                nPieceObj = new Queen(0);
+              } else if (newPiece.equals("rook")) {
+                nPieceObj = new Rook(0);
+              } else if (newPiece.equals("knight")) {
+                nPieceObj = new Knight(0);
+              } else {
+                nPieceObj = new Bishop(0);
+              }
+              spaces[firstY][firstX].setPiece(nPieceObj);
+            }
             return true;
           }
         }
@@ -201,6 +312,28 @@ public class Board {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
             consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
+            if (lastY == 7) { // pawn Promotion
+              String newPiece = "";
+              boolean rr = true;
+              while (rr) {
+                newPiece = getS("Promote your pawn");
+                newPiece.toLowerCase();
+                if (newPiece.equals("queen")|| newPiece.equals("rook") || newPiece.equals("knight") || newPiece.equals("bishop")) {
+                  rr = false;
+                }
+              }
+              Pieces nPieceObj;
+              if (newPiece.equals("queen")) {
+                nPieceObj = new Queen(0);
+              } else if (newPiece.equals("rook")) {
+                nPieceObj = new Rook(0);
+              } else if (newPiece.equals("knight")) {
+                nPieceObj = new Knight(0);
+              } else {
+                nPieceObj = new Bishop(0);
+              }
+              spaces[firstY][firstX].setPiece(nPieceObj);
+            }
             return true;
           }
         }
