@@ -1,7 +1,8 @@
 public class Board {
   int bLength = 800;
   Square[][] spaces = new Square[8][8];
-
+  String wKingLoc;
+  String bKingLoc;
   public Board() {
     create();
   }
@@ -35,6 +36,7 @@ public class Board {
     spaces[0][2] = new Square(2, 0, new Bishop(0));
     spaces[0][3] = new Square(3, 0, new Queen(0));
     spaces[0][4] = new Square(4, 0, new King(0));
+    bKingLoc = "04";
     spaces[0][5] = new Square(5, 0, new Bishop(0));
     spaces[0][6] = new Square(6, 0, new Knight(0));
     spaces[0][7] = new Square(7, 0, new Rook(0));
@@ -50,6 +52,7 @@ public class Board {
     spaces[7][2] = new Square(2, 7, new Bishop(255));
     spaces[7][3] = new Square(3, 7, new Queen(255));
     spaces[7][4] = new Square(4, 7, new King(255));
+    wKingLoc = "47";
     spaces[7][5] = new Square(5, 7, new Bishop(255));
     spaces[7][6] = new Square(6, 7, new Knight(255));
     spaces[7][7] = new Square(7, 7, new Rook(255));
@@ -61,7 +64,7 @@ public class Board {
       }
     }
   }
-
+  
   void move(String first, String place) {
     String fLetter = first.substring(0, 1);
     int fStringNum = lToN(fLetter);
@@ -72,13 +75,41 @@ public class Board {
     int pStringNum = lToN(pLetter);
     int pNum = Integer.parseInt(place.substring(1)) - 1;
 
-    if (canMove(fNum, fStringNum, pNum, pStringNum)) {
+    if (canMove(fNum, fStringNum, pNum, pStringNum) &&
+    !isChecked(fNum, fStringNum, pNum, pStringNum) {
       Pieces x = spaces[fNum][fStringNum].getPiece();
       spaces[fNum][fStringNum].setPiece(null);
       spaces[pNum][pStringNum].setPiece(x);
     }
   }
-
+  
+  boolean isChecked(int firstX, int firstY, int lastX, int lastY){
+    Pieces inOld = spaces[firstX][firstY].getOccupant();
+    int kingLocX;
+    int kingLocY;
+    if (inOld.col == 255){
+      kingLocX = int(bKingLoc.substring(0,1));
+      kingLocY = int(bKingLoc.substring(1));
+    }else{
+      kingLocX = int(wKingLoc.substring(0,1));
+      kingLocY = int(wKingLoc.substring(1));
+    }
+    for(int i = 0; i < kingLocX; i++){
+      if(spaces[i][kingLocY] != null){
+        if (canMove(i, kingLocY, kingLocX, kingLocY)){
+          return true;
+        }i = kingLocX;
+      }
+    }
+    for(int i = 0; i < kingLocY; i++){
+      if(spaces[kingLocX][i] != null){
+        if (canMove(kingLocX, i, kingLocX, kingLocY)){
+          return true;
+        }i = kingLocY;
+      }
+    }
+    return false;
+  }
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
     println("Last X: " + lastX);
     println("Last Y: " + lastY);
@@ -92,6 +123,7 @@ public class Board {
     if (inNew != null) {
       if ((inOld.col == 255 && inNew.col == 255) ||
         (inOld.col == 0 && inNew.col == 0)) {
+          print("piece of same color in spot");
         return false;
       }
     }
@@ -207,6 +239,7 @@ public class Board {
         return true;
       }
     }
+
 
     if (inOld.name().equals("bishop")) {
 
