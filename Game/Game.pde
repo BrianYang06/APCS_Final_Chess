@@ -1,26 +1,35 @@
 import javax.swing.*;
 Board b;
-boolean tit = false;
+boolean title = false;
 Player[] players = new Player[2];
 int current = 0;
 int CLICK_MODE;
+boolean whoseTurn = true;
 final int FIRST = 0;
 final int LOC = 1;
 final int NEXT_PLAY = 2;
 String first;
 
 void setup() {
-  size(850, 850);
+  size(1000, 850);
   title();
 }
 
 void draw() {
-  if (!tit) {
+  if (!title) {
     b.update();
+    //text(players[current].getName() + "Turn", 400, 800);
+    fill(255);
+    rect(835, 400, 200, 45);  
+    textSize(25);
+    fill(0);
+    if (!whoseTurn) {
+      text("Black(" + players[1].getName() + ")", 845, 425);
+    } else text("White(" + players[0].getName() + ")", 845, 435);
   }
 }
 
-String mouseSquare(int x, int y){
+String mouseSquare(int x, int y) {
   char c = char(65 + (x / 100));
   y = y / 100 + 1;
   String sq = c + str(y);
@@ -28,27 +37,56 @@ String mouseSquare(int x, int y){
 }
 
 void mouseClicked() {
-  if (tit == false) {
-     if (CLICK_MODE == FIRST){
-      first = mouseSquare(mouseX, mouseY);
-      println(first);
-      CLICK_MODE++;
-      // text(first, 800, 800);
-    }else if (CLICK_MODE == LOC){
-      String loc = mouseSquare(mouseX, mouseY);
-      CLICK_MODE=0;
-      // text(first + " " + loc, width - 50, width - 50);
-      b.move(first, loc);
+  if (title == false) {
+
+    if (CLICK_MODE == FIRST) {
+      int x = mouseX;
+      int t = mouseY;
+      if (whoseTurn) {
+        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 255) {
+          first = mouseSquare(x, t);
+          textSize(15);
+          fill(255);
+          rect(835, 25, 200, 40);
+          fill(0);
+          String pColor;
+          if (b.squareAt(t/100, x/100).getPiece().col == 0) {
+            pColor = "Black";
+          } else pColor = "White";
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
+          println(first);
+          CLICK_MODE++;
+        }
+      } else {
+        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 0) {
+          first = mouseSquare(x, t);
+          textSize(15);
+          fill(255);
+          rect(835, 25, 200, 40);
+          fill(0);
+          String pColor;
+          if (b.squareAt(t/100, x/100).getPiece().col == 0) {
+            pColor = "Black";
+          } else pColor = "White";
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
+          println(first);
+          CLICK_MODE++;
+        }
+      }
+    } else if (CLICK_MODE == LOC) {
+      int finalx = mouseX;
+      int finaly = mouseY;
+      if (finalx < 800 && finaly < 800) {
+        fill(255);
+        rect(835, 25, 200, 40);
+        print(finalx + " " + finaly);
+        String loc = mouseSquare(finalx, finaly);
+        CLICK_MODE=0;
+        if (!loc.equals(first)) {
+          b.move(first, loc);
+        }
+      }
     }
-    //else if (CLICK_MODE == NEXT_PLAY){
-    //  text(players[current].getName(), 800, 800);
-    //  if (current == 0){
-    //    current++;
-    //  }else{
-    //    current = 0;
-    //  }
-    //  CLICK_MODE = 0;
-    //}
   }
 }
 
@@ -74,7 +112,7 @@ boolean validIn(String x) { //have this check if input commands are valid
 
 void startGame() {
   b = new Board();
-  tit = false;
+  title = false;
 }
 
 
@@ -83,24 +121,27 @@ void keyPressed() {
     startGame();
     String name1 = "";
     String name2 = "";
-    while (name1.length() == 0) {
-      name1 = getS("Enter Player 1 Name: ");
+    while (name1 == null || name1.length() == 0 || name1.length() > 4) {
+      name1 = getS("Enter Player 1 Name (4 Char or less): ");
     }
-    while (name2.length() == 0) {
-      name2 = getS("Enter Player 2 Name: ");
+    while (name2 == null || name2.length() == 0 || name2.length() > 4) {
+      name2 = getS("Enter Player 2 Name (4 Char or less): ");
     }
     players[0] = new Player(name1, 255);
     players[1] = new Player(name2, 0);
   } else if (key == '`') {
+    if(!title){
     title();
     startGame();
+    whoseTurn = true;
+    }
   } else if (key == 'p') {
     exit();
   }
 }
 
 void title() {
-  tit = true;
+  title = true;
   background(0);
   PImage titlescreen = loadImage("chess.jpeg");
   image(titlescreen, 110, 248);
