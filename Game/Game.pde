@@ -21,11 +21,11 @@ void draw() {
     //text(players[current].getName() + "Turn", 400, 800);
     fill(255);
     rect(835, 400, 200, 45);
-    textSize(30);
+    textSize(25);
     fill(0);
     if (!whoseTurn) {
-      text("black", 910, 425);
-    } else text("white", 910, 425);
+      text("Black(" + players[1].getName() + ")", 845, 425);
+    } else text("White(" + players[0].getName() + ")", 845, 435);
   }
 }
 
@@ -60,7 +60,6 @@ void mouseClicked() {
       } else {
         if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 0) {
           first = mouseSquare(x, t);
-
           textSize(15);
           fill(255);
           rect(835, 25, 200, 40);
@@ -120,16 +119,16 @@ void startGame() {
 void keyPressed() {
   if (key == ' ') {
     startGame();
-    // String name1 = "";
-    // String name2 = "";
-    //while (name1.length() == 0) {
-    //   name1 = getS("Enter Player 1 Name: ");
-    // }
-    // while (name2.length() == 0) {
-    //   name2 = getS("Enter Player 2 Name: ");
-    // }
-    // players[0] = new Player(name1, 255);
-    // players[1] = new Player(name2, 0);
+     String name1 = "";
+     String name2 = "";
+    while (name1 == null || name1.length() == 0 || name1.length() > 4) {
+       name1 = getS("Enter Player 1 Name (4 Char or less): ");
+     }
+     while (name2 == null || name2.length() == 0 || name2.length() > 4) {
+       name2 = getS("Enter Player 2 Name (4 Char or less): ");
+     }
+     players[0] = new Player(name1, 255);
+     players[1] = new Player(name2, 0);
   } else if (key == '`') {
     title();
     startGame();
