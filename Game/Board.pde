@@ -40,11 +40,11 @@ public class Board {
     spaces[0][6] = new Square(6, 0, new Knight(0));
     spaces[0][7] = new Square(7, 0, new Rook(0));
     for (int i = 0; i <= 7; i++) {
-      spaces[1][i] = new Square(i, 1, new Pawn(255));
+      spaces[1][i] = new Square(i, 1, new Pawn(0));
     }
 
     for (int i = 0; i <= 7; i++) {
-      spaces[6][i] = new Square(i, 6, new Pawn(0));
+      spaces[6][i] = new Square(i, 6, new Pawn(255));
     }
     spaces[7][0] = new Square(0, 7, new Rook(255));
     spaces[7][1] = new Square(1, 7, new Knight(255));

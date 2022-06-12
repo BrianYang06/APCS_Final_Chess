@@ -130,8 +130,11 @@ void keyPressed() {
     players[0] = new Player(name1, 255);
     players[1] = new Player(name2, 0);
   } else if (key == '`') {
+    if(!title){
     title();
     startGame();
+    whoseTurn = true;
+    }
   } else if (key == 'p') {
     exit();
   }
