@@ -102,8 +102,7 @@ public class Board {
     int pStringNum = lToN(pLetter);
     int pNum = Integer.parseInt(place.substring(1)) - 1;
 
-    if (canMove(fStringNum, fNum, pStringNum, pNum) && 
-    !isChecked(fStringNum, fNum, pStringNum, pNum)) {
+    if (canMove(fStringNum, fNum, pStringNum, pNum)) {
       Pieces x = spaces[fNum][fStringNum].getPiece();
       spaces[fNum][fStringNum].setPiece(null);
       spaces[pNum][pStringNum].setPiece(x);
