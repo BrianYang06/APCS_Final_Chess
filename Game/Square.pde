@@ -41,8 +41,8 @@ public class Square {
   void setPiece(Pieces piece) {
     Occupant = piece;
   }
-  
-  Pieces getPiece(){
+
+  Pieces getPiece() {
     return Occupant;
   }
 
@@ -50,8 +50,8 @@ public class Square {
     //not in prototype but might be useful to just draw over it
     return colr;
   }
-  
-  Pieces getOccupant(){
+
+  Pieces getOccupant() {
     return Occupant;
   }
 }
