@@ -1,6 +1,7 @@
 public class Board {
   int bLength = 800;
   Square[][] spaces = new Square[8][8];
+  ArrayList<Pieces> dead = new ArrayList<Pieces>();
 
   public Board() {
     create();
@@ -74,11 +75,18 @@ public class Board {
       }
     }
     createCheckered();
+
+    textSize(15);
+    text("Graveyard", 925, 95);
+    fill(255);
+    rect(835, 25, 200, 40);
+    fill(0);
+    text("WhoseTurn", 918, 21);
   }
 
   void move(String first, String place) {
     String fLetter = first.substring(0, 1);
-    int fStringNum = lToN(fLetter);
+    int fStringNum = lToN(fLetter); 
     int fNum = Integer.parseInt(first.substring(1)) - 1;
 
 
@@ -93,11 +101,19 @@ public class Board {
     }
   }
 
+  void consumed(int x, int y) {
+    if (spaces[x][y].getPiece() != null) {
+      dead.add(spaces[x][y].getOccupant());
+    }
+  }
+
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
+    /*
     println("Last X: " + lastX);
-    println("Last Y: " + lastY);
-    println("First Y: " + firstY);
-    println("First X: " + firstX);
+     println("Last Y: " + lastY);
+     println("First Y: " + firstY);
+     println("First X: " + firstX);
+     */
 
 
     //piece of same color in last
@@ -135,12 +151,14 @@ public class Board {
         //capturing right side
         if (firstX + 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
+            consumed(lastY, lastX); 
             return true;
           }
         }
         //capture left
         if (firstX - 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
+            consumed(lastY, lastX); 
             return true;
           }
         }
@@ -162,12 +180,14 @@ public class Board {
         //capturing right side
         if (firstX + 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
+            consumed(lastY, lastX); 
             return true;
           }
         }
         //capture left
         if (firstX - 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
+            consumed(lastY, lastX); 
             return true;
           }
         }
@@ -177,6 +197,7 @@ public class Board {
     if (inOld.name().equals("king")) {
       //right 
       if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
+        consumed(lastY, lastX); 
         return true;
       }
     }
@@ -186,9 +207,10 @@ public class Board {
       int amountBlock = 0;
       boolean blocking = false;
       if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
+        consumed(lastY, lastX); 
         return true;
       }
-            boolean moveVert = false;
+      boolean moveVert = false;
       boolean moveHor = false;
       //making sure its horizontal/vertical
       if (firstX == lastX && firstY != lastY) {
@@ -246,6 +268,7 @@ public class Board {
       if (blocking == true) {
         return false;
       } else if (moveHor || moveVert) {
+        consumed(lastY, lastX); 
         return true;
       }
       int tempX = abs(firstX - lastX);
@@ -257,7 +280,6 @@ public class Board {
             firstX--;
             firstY--;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print(spaces[firstY][firstX].getPiece().name());
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -270,7 +292,6 @@ public class Board {
             firstX++;
             firstY--;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print(spaces[firstY][firstX].getPiece().name());
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -283,7 +304,6 @@ public class Board {
             firstX--;
             firstY++;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print(spaces[firstY][firstX].getPiece().name());
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -295,7 +315,6 @@ public class Board {
           firstX++;
           firstY++;
           if (spaces[firstY][firstX].isEmpty() == false ) {
-            print(spaces[firstY][firstX].getPiece().name());
             blocking = true;
             amountBlocking++;
             if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -306,7 +325,10 @@ public class Board {
 
         if (blocking) {
           return false;
-        } else return true;
+        } else {
+          consumed(lastY, lastX); 
+          return true;
+        }
       }
     }
 
@@ -373,36 +395,46 @@ public class Board {
       if (blocking == true) {
         return false;
       } else if (moveHor || moveVert) {
+        consumed(lastY, lastX); 
         return true;
       }
     }
 
     if (inOld.name().equals("knight")) {
       if (firstX - lastX == 0 || firstY - lastY == 0) {
+        consumed(lastY, lastX);
         return false;
       }
       if (firstX - 1 == lastX && firstY - 2 == lastY) { //top left
+        consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY - 2 == lastY) { //top right
+        consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY - 1 == lastY) { //left up
+        consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY + 1 == lastY) { //left down
+        consumed(lastY, lastX);
         return true;
       }
       if (firstX - 1 == lastX && firstY + 2 == lastY) { //bottom left
+        consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY + 2 == lastY) { //bottom right
+        consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY - 1 == lastY) { //right down
+        consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY + 1 == lastY) { //right up
+        consumed(lastY, lastX);
         return true;
       }
     }
@@ -419,7 +451,6 @@ public class Board {
             firstX--;
             firstY--;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print(spaces[firstY][firstX].getPiece().name());
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -432,7 +463,6 @@ public class Board {
             firstX++;
             firstY--;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print(spaces[firstY][firstX].getPiece().name());
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -445,7 +475,6 @@ public class Board {
             firstX--;
             firstY++;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print(spaces[firstY][firstX].getPiece().name());
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -453,22 +482,26 @@ public class Board {
               }
             }
           }
-        } else if (firstX < lastX && firstY < lastY) { //bottom right
-          firstX++;
-          firstY++;
-          if (spaces[firstY][firstX].isEmpty() == false ) {
-            print(spaces[firstY][firstX].getPiece().name());
-            blocking = true;
-            amountBlocking++;
-            if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
-              blocking = false;
+        } else if (lastX > firstX && lastY > firstY) { //bottom right
+          while (firstX != lastX  && firstY != lastY ) {
+            firstX++;
+            firstY++;
+            if (spaces[firstY][firstX].isEmpty() == false ) {
+              print("sus");
+              blocking = true;
+              amountBlocking++;
+              if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
+                blocking = false;
+              }
             }
           }
         }
-
         if (blocking) {
           return false;
-        } else return true;
+        } else {
+          consumed(lastY, lastX); 
+          return true;
+        }
       }
 
       return false;
@@ -500,6 +533,7 @@ public class Board {
 
   void update() {
     createCheckered();
+    graveyard();
     for (int i = 0; i < spaces.length; i++) {
       for (int j = 0; j < spaces[0].length; j++) {
         spaces[i][j].show();
@@ -537,6 +571,31 @@ public class Board {
            text("null", k * 100, i * 100 + 100);
            }*/
         }
+      }
+    }
+  }
+
+  void graveyard() {
+    fill(255);
+    rect(840, 100, 160, 250);
+    int xloc = 840;
+    int yloc = 100;
+    for (int i = 0; i < dead.size(); i++) {
+      String colrD = "";
+      if (dead.get(i).col == 255) { //convert Color to string 
+        colrD = "White";
+      } else colrD = "Black";
+      String nameFix = ""; //name is all lowercase but png are upper
+      nameFix = dead.get(i).name().substring(0, 1).toUpperCase() + dead.get(i).name().substring(1);
+      PImage deadP = loadImage(colrD + "_" + nameFix + ".png"); 
+      deadP.resize(40, 40);
+      if (xloc < 970) {
+        image(deadP, xloc, yloc);
+        xloc += 20;
+      } else {
+        xloc = 840;
+        yloc += 40;
+        image(deadP, xloc, yloc);
       }
     }
   }
