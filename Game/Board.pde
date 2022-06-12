@@ -2,6 +2,7 @@ public class Board {
   int bLength = 800;
   Square[][] spaces = new Square[8][8];
   ArrayList<Pieces> dead = new ArrayList<Pieces>();
+  ArrayList<String> history = new ArrayList<String>();
 
   public Board() {
     create();
@@ -74,9 +75,7 @@ public class Board {
         }
       }
     }
-
-
-    //----------------------------------------------------------
+    
     createCheckered();
 
     textSize(15);
@@ -113,13 +112,13 @@ public class Board {
   }
 
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
-
+    /*
     println("Last X: " + lastX);
-    println("Last Y: " + lastY);
-    println("First Y: " + firstY);
-    println("First X: " + firstX);
-
-
+     println("Last Y: " + lastY);
+     println("First Y: " + firstY);
+     println("First X: " + firstX);
+     
+     */
 
     //piece of same color in last
     Pieces inNew = spaces[lastY][lastX].getOccupant();
@@ -402,7 +401,6 @@ public class Board {
 
         for (int j = lastY; j < firstY; j++) { //bottom to top
           if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
-            print(spaces[j][firstX].getPiece().name());
             amountBlock++;
             blocking = true;
           }
@@ -530,7 +528,6 @@ public class Board {
 
         for (int j = lastY; j < firstY; j++) { //bottom to top
           if (spaces[j][firstX].isEmpty() == false && amountBlock >= 0) {
-            print(spaces[j][firstX].getPiece().name());
             amountBlock++;
             blocking = true;
           }
@@ -540,7 +537,6 @@ public class Board {
         }
       }  
 
-      //print(blocking);
       //valid movement checker
       if (blocking == true) {
         return false;
@@ -647,7 +643,6 @@ public class Board {
             firstX++;
             firstY++;
             if (spaces[firstY][firstX].isEmpty() == false ) {
-              print("sus");
               blocking = true;
               amountBlocking++;
               if (amountBlocking == 1 && !spaces[lastY][lastX].isEmpty()) {
@@ -716,7 +711,7 @@ public class Board {
       }
     }
 
-    if (wKing == false) {//black wins
+    if (wKing == false || timerW == 0) {//black wins
       rectMode(RADIUS);
       rect(width/2, height/2, 150, 150);
       textSize(50);
@@ -726,7 +721,7 @@ public class Board {
       textSize(30);
       text("Press ` to Restart", 370, 550);
       rectMode(CORNER);
-    } else if (bKing == false) {//white wins
+    } else if (bKing == false || timerB == 0) {//white wins
       rectMode(RADIUS);
       rect(width/2, height/2, 150, 150);
       textSize(50);
@@ -737,6 +732,8 @@ public class Board {
       text("Press ` to Restart", 370, 550);
       rectMode(CORNER);
     }
+    
+    
   }
 
   void createCheckered() {

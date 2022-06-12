@@ -8,6 +8,9 @@ boolean whoseTurn = true;
 final int FIRST = 0;
 final int LOC = 1;
 final int NEXT_PLAY = 2;
+int timer = 0;
+int timerB = 0;
+int timerW = 0;
 String first;
 
 void setup() {
@@ -16,16 +19,25 @@ void setup() {
 }
 
 void draw() {
+  //println(frameRate);
   if (!title) {
     b.update();
     //text(players[current].getName() + "Turn", 400, 800);
     fill(255);
     rect(835, 400, 200, 45);  
-    textSize(25);
+    rect(835, 450, 200, 45);
+    textSize(15);
     fill(0);
+    text("White: " + (timerW/45) + " seconds", 850, 490);
+    text("Black: " + (timerB/45) + " seconds", 850, 470);
+    textSize(25);
     if (!whoseTurn) {
       text("Black(" + players[1].getName() + ")", 845, 425);
-    } else text("White(" + players[0].getName() + ")", 845, 435);
+      timerB -= 1/frameRate;
+    } else {
+      text("White(" + players[0].getName() + ")", 845, 435);
+      timerW -= 1/frameRate;
+    }
   }
 }
 
@@ -54,7 +66,7 @@ void mouseClicked() {
             pColor = "Black";
           } else pColor = "White";
           text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
-          println(first);
+ 
           CLICK_MODE++;
         }
       } else {
@@ -69,7 +81,6 @@ void mouseClicked() {
             pColor = "Black";
           } else pColor = "White";
           text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
-          println(first);
           CLICK_MODE++;
         }
       }
@@ -79,7 +90,6 @@ void mouseClicked() {
       if (finalx < 800 && finaly < 800) {
         fill(255);
         rect(835, 25, 200, 40);
-        print(finalx + " " + finaly);
         String loc = mouseSquare(finalx, finaly);
         CLICK_MODE=0;
         if (!loc.equals(first)) {
@@ -117,6 +127,7 @@ void startGame() {
 
 
 void keyPressed() {
+
   if (key == ' ') {
     startGame();
     String name1 = "";
@@ -129,11 +140,18 @@ void keyPressed() {
     }
     players[0] = new Player(name1, 255);
     players[1] = new Player(name2, 0);
+    while (timer < 1) { 
+      timer = getI("Enter Time(In Minutes):");
+    }
+    timerW = timer * 2700;
+    timerB = timer * 2700;
   } else if (key == '`') {
-    if(!title){
-    title();
-    startGame();
-    whoseTurn = true;
+    if (!title) {
+      timerW = timer * 2700;
+      timerB = timer * 2700; 
+      title();
+      startGame();
+      whoseTurn = true;
     }
   } else if (key == 'p') {
     exit();
@@ -161,7 +179,7 @@ String prompt(String s)
   String entry = JOptionPane.showInputDialog(s);
   if (entry == null)
     return null;
-  println(entry);
+  //println(entry);
   return entry;
 }
 
@@ -170,7 +188,6 @@ String getS(String s)
   return prompt(s);
 }
 
-int getI(String s)
-{
+int getI(String s) {
   return Integer.parseInt(getS(s));
 }
