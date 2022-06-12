@@ -74,6 +74,9 @@ public class Board {
         }
       }
     }
+
+
+    //----------------------------------------------------------
     createCheckered();
 
     textSize(15);
@@ -563,6 +566,43 @@ public class Board {
       for (int j = 0; j < spaces[0].length; j++) {
         spaces[i][j].show();
       }
+    }
+
+    //check for king
+    boolean wKing = false;
+    boolean bKing = false;
+    for (int i =0; i <=7; i++) {
+      for (int k= 0; k <= 7; k++) {
+        if (spaces[i][k].getOccupant() != null && spaces[i][k].getOccupant().name() == "king") {
+          if (spaces[i][k].getOccupant().col == 0) {
+            bKing = true;
+          } else if (spaces[i][k].getOccupant().col == 255) {
+            wKing= true;
+          }
+        }
+      }
+    }
+
+    if (wKing == false) {//black wins
+      rectMode(RADIUS);
+      rect(width/2, height/2, 150, 150);
+      textSize(50);
+      fill(0);
+      text("Black Wins", 370, 350);
+      text(players[0].getName(), 425, 450);
+      textSize(30);
+      text("Press ` to Restart", 370, 550);
+      rectMode(CORNER);
+    } else if (bKing == false) {//white wins
+      rectMode(RADIUS);
+      rect(width/2, height/2, 150, 150);
+      textSize(50);
+      fill(0);
+      text("White Wins", 370, 350);
+      text(players[1].getName(), 425, 450);
+      textSize(30);
+      text("Press ` to Restart", 370, 550);
+      rectMode(CORNER);
     }
   }
 

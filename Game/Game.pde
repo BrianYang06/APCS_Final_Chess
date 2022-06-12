@@ -20,7 +20,7 @@ void draw() {
     b.update();
     //text(players[current].getName() + "Turn", 400, 800);
     fill(255);
-    rect(835, 400, 200, 45);
+    rect(835, 400, 200, 45);  
     textSize(25);
     fill(0);
     if (!whoseTurn) {
@@ -119,16 +119,16 @@ void startGame() {
 void keyPressed() {
   if (key == ' ') {
     startGame();
-     String name1 = "";
-     String name2 = "";
+    String name1 = "";
+    String name2 = "";
     while (name1 == null || name1.length() == 0 || name1.length() > 4) {
-       name1 = getS("Enter Player 1 Name (4 Char or less): ");
-     }
-     while (name2 == null || name2.length() == 0 || name2.length() > 4) {
-       name2 = getS("Enter Player 2 Name (4 Char or less): ");
-     }
-     players[0] = new Player(name1, 255);
-     players[1] = new Player(name2, 0);
+      name1 = getS("Enter Player 1 Name (4 Char or less): ");
+    }
+    while (name2 == null || name2.length() == 0 || name2.length() > 4) {
+      name2 = getS("Enter Player 2 Name (4 Char or less): ");
+    }
+    players[0] = new Player(name1, 255);
+    players[1] = new Player(name2, 0);
   } else if (key == '`') {
     title();
     startGame();
