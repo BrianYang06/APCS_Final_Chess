@@ -92,6 +92,7 @@ public class Board {
     text("Selected Piece", 895, 21);
     text("Whose Turn", 910, 395);
     text("Winner", 945, 520);
+    text("Press f to forfeit", 850, 780);
   }
 
   void move(String first, String place) {
