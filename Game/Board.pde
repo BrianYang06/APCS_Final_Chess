@@ -3,16 +3,13 @@ public class Board {
   Square[][] spaces = new Square[8][8];
   ArrayList<Pieces> dead = new ArrayList<Pieces>();
   ArrayList<String> history = new ArrayList<String>();
-  //  String bKingLoc;
-  //String wKingLoc;
+  String bKingLoc;
+  String wKingLoc;
 
   public Board() {
     create();
   }
 
-  Square squareAt(int x, int y) {
-    return spaces[x][y];
-  }
 
   public void create() {
     textSize(12);
@@ -39,7 +36,7 @@ public class Board {
     spaces[0][2] = new Square(2, 0, new Bishop(0));
     spaces[0][3] = new Square(3, 0, new Queen(0));
     spaces[0][4] = new Square(4, 0, new King(0));
-    //bKingLoc = "04";
+    bKingLoc = "04";
     spaces[0][5] = new Square(5, 0, new Bishop(0));
     spaces[0][6] = new Square(6, 0, new Knight(0));
     spaces[0][7] = new Square(7, 0, new Rook(0));
@@ -55,7 +52,7 @@ public class Board {
     spaces[7][2] = new Square(2, 7, new Bishop(255));
     spaces[7][3] = new Square(3, 7, new Queen(255));
     spaces[7][4] = new Square(4, 7, new King(255));
-    //wKingLoc = "74";
+    wKingLoc = "74";
     spaces[7][5] = new Square(5, 7, new Bishop(255));
     spaces[7][6] = new Square(6, 7, new Knight(255));
     spaces[7][7] = new Square(7, 7, new Rook(255));
@@ -106,73 +103,46 @@ public class Board {
     int pNum = Integer.parseInt(place.substring(1)) - 1;
 
     if (canMove(fStringNum, fNum, pStringNum, pNum)) {
-      Pieces x = spaces[fNum][fStringNum].getPiece();
+      Pieces x = spaces[fNum][fStringNum].getOccupant();
+      Pieces y = spaces[pNum][pStringNum].getOccupant();
       spaces[fNum][fStringNum].setPiece(null);
       spaces[pNum][pStringNum].setPiece(x);
+      if (isChecked(x.col)){
+        spaces[fNum][fStringNum].setPiece(x);
+        spaces[pNum][pStringNum].setPiece(y);
+      }
     }
   }
 
   void consumed(int x, int y) {
-    if (spaces[x][y].getPiece() != null) {
+    if (spaces[x][y].getOccupant() != null) {
       dead.add(spaces[x][y].getOccupant());
     }
   }
 
-  /*
-  boolean isChecked(int firstX, int firstY, int lastX, int lastY){
-   Pieces inOld = spaces[firstY][firstX].getOccupant();
+  
+  boolean isChecked(color col){
    int kingLocX;
    int kingLocY;
-   if (inOld.col == 255){
-   kingLocX = int(wKingLoc.substring(0,1));
-   kingLocY = int(wKingLoc.substring(1));
+   if (col == 255){
+     kingLocX = int(wKingLoc.substring(0,1));
+     kingLocY = int(wKingLoc.substring(1));
    }else{
-   kingLocX = int(bKingLoc.substring(0,1));
-   kingLocY = int(bKingLoc.substring(1));
+     kingLocX = int(bKingLoc.substring(0,1));
+     kingLocY = int(bKingLoc.substring(1));
    }
-   boolean pieceFound = false;
-   for(int i = kingLocX; i < 8 && !pieceFound; i++){
-   if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
-   if (canMove(i, kingLocY, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   }   
-   }
-   pieceFound = false;
-   for(int i = kingLocY; i < 8 && !pieceFound; i++){
-   if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
-   if (canMove(kingLocX, i, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   } 
-   }
-   pieceFound = false;
-   for(int i = kingLocX; i >= 0 && !pieceFound; i--){
-   if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
-   if (canMove(i, kingLocY, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   } 
-   }
-   pieceFound = false;
-   for(int i = kingLocY; i >= 0 && !pieceFound; i--){
-   if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
-   if (canMove(kingLocX, i, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   } 
-   }
-   
-   return false;
-   } */
+   for(int i = 0; i < 7; i++){
+     for(int j = 0; j < 7; j++){
+       if(spaces[j][i] != null){
+         if (canMove(i, j, kingLocX, kingLocY)){
+           print(i + "" + j);
+         return true;
+         }
+       }
+     }
+   }return false;
+  
+  } 
 
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
     /*
@@ -186,6 +156,9 @@ public class Board {
     //piece of same color in last
     Pieces inNew = spaces[lastY][lastX].getOccupant();
     Pieces inOld = spaces[firstY][firstX].getOccupant();
+    if (inOld == null){
+      return false;
+    }
     if (inNew != null) {
       if ((inOld.col == 255 && inNew.col == 255) ||
         (inOld.col == 0 && inNew.col == 0)) {
