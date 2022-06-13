@@ -829,6 +829,7 @@ public class Board {
       } else colrD = "Black";
       String nameFix = ""; //name is all lowercase but png are upper
       nameFix = dead.get(i).name().substring(0, 1).toUpperCase() + dead.get(i).name().substring(1);
+      if(!nameFix.equals("King")){
       PImage deadP = loadImage(colrD + "_" + nameFix + ".png"); 
       deadP.resize(40, 40);
       if (xloc < 970) {
@@ -838,6 +839,7 @@ public class Board {
         xloc = 840;
         yloc += 40;
         image(deadP, xloc, yloc);
+      }
       }
     }
   }
