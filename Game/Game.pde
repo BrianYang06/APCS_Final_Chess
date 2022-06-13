@@ -5,6 +5,7 @@ Player[] players = new Player[2];
 int current = 0;
 int CLICK_MODE;
 boolean whoseTurn = true;
+int ff = 0;
 final int FIRST = 0;
 final int LOC = 1;
 final int NEXT_PLAY = 2;
@@ -55,32 +56,32 @@ void mouseClicked() {
       int x = mouseX;
       int t = mouseY;
       if (whoseTurn) {
-        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 255) {
+        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getOccupant().col == 255) {
           first = mouseSquare(x, t);
           textSize(15);
           fill(255);
           rect(835, 25, 200, 40);
           fill(0);
           String pColor;
-          if (b.squareAt(t/100, x/100).getPiece().col == 0) {
+          if (b.squareAt(t/100, x/100).getOccupant().col == 0) {
             pColor = "Black";
           } else pColor = "White";
-          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getOccupant().name(), 840, 40);
  
           CLICK_MODE++;
         }
       } else {
-        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getPiece().col == 0) {
+        if (x < 800 && t < 800 && !b.squareAt(t/100, x/100).isEmpty() && b.squareAt(t/100, x/100).getOccupant().col == 0) {
           first = mouseSquare(x, t);
           textSize(15);
           fill(255);
           rect(835, 25, 200, 40);
           fill(0);
           String pColor;
-          if (b.squareAt(t/100, x/100).getPiece().col == 0) {
+          if (b.squareAt(t/100, x/100).getOccupant().col == 0) {
             pColor = "Black";
           } else pColor = "White";
-          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getPiece().name(), 840, 40);
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getOccupant().name(), 840, 40);
           CLICK_MODE++;
         }
       }
@@ -152,14 +153,15 @@ void keyPressed() {
       title();
       startGame();
       whoseTurn = true;
+      ff = 0;
     }
   } else if (key == 'p') {
     exit();
   } else if (key == 'f'){
-    if (whoseTurn){
-      text(players[1].getName() + " wins!", 850, 550);
+    if (!whoseTurn){
+      ff = 1;
     }else{
-      text(players[0].getName() + " wins!", 850, 550);
+      ff = 2;
     }
   }
 }
