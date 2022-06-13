@@ -42,9 +42,6 @@ public class Square {
     Occupant = piece;
   }
 
-  Pieces getPiece() {
-    return Occupant;
-  }
 
   color getColor() {
     //not in prototype but might be useful to just draw over it

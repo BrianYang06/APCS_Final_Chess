@@ -3,16 +3,15 @@ public class Board {
   Square[][] spaces = new Square[8][8];
   ArrayList<Pieces> dead = new ArrayList<Pieces>();
   ArrayList<String> history = new ArrayList<String>();
-  //  String bKingLoc;
-  //String wKingLoc;
 
   public Board() {
     create();
   }
 
-  Square squareAt(int x, int y) {
+  Square squareAt(int x, int y) { //used for checking which piece selected
     return spaces[x][y];
   }
+
 
   public void create() {
     textSize(12);
@@ -39,7 +38,6 @@ public class Board {
     spaces[0][2] = new Square(2, 0, new Bishop(0));
     spaces[0][3] = new Square(3, 0, new Queen(0));
     spaces[0][4] = new Square(4, 0, new King(0));
-    //bKingLoc = "04";
     spaces[0][5] = new Square(5, 0, new Bishop(0));
     spaces[0][6] = new Square(6, 0, new Knight(0));
     spaces[0][7] = new Square(7, 0, new Rook(0));
@@ -55,7 +53,6 @@ public class Board {
     spaces[7][2] = new Square(2, 7, new Bishop(255));
     spaces[7][3] = new Square(3, 7, new Queen(255));
     spaces[7][4] = new Square(4, 7, new King(255));
-    //wKingLoc = "74";
     spaces[7][5] = new Square(5, 7, new Bishop(255));
     spaces[7][6] = new Square(6, 7, new Knight(255));
     spaces[7][7] = new Square(7, 7, new Rook(255));
@@ -106,73 +103,97 @@ public class Board {
     int pNum = Integer.parseInt(place.substring(1)) - 1;
 
     if (canMove(fStringNum, fNum, pStringNum, pNum)) {
-      Pieces x = spaces[fNum][fStringNum].getPiece();
+      Pieces x = spaces[fNum][fStringNum].getOccupant();
+      Pieces y = spaces[pNum][pStringNum].getOccupant();
       spaces[fNum][fStringNum].setPiece(null);
       spaces[pNum][pStringNum].setPiece(x);
+      if (isChecked(x.col)){
+        spaces[fNum][fStringNum].setPiece(x);
+        spaces[pNum][pStringNum].setPiece(y);
+      }else if (y != null){
+        dead.add(y);
+      }
+      
     }
   }
 
-  void consumed(int x, int y) {
-    if (spaces[x][y].getPiece() != null) {
-      dead.add(spaces[x][y].getOccupant());
+  //void consumed(int x, int y) {
+  //  if (spaces[x][y].getOccupant() != null) {
+  //    dead.add(spaces[x][y].getOccupant());
+  //  }
+  //}
+
+  boolean checkmate(color col){
+    if (!isChecked(col)){
+      return false;
     }
+    for(int i = 0; i < 8; i++){
+      for (int j = 0; j < 8; j++){
+        Pieces piece = spaces[j][i].getOccupant();
+        if (piece != null && piece.col == col){
+          //print(piece.name());
+          for (int k = 0; k < 8; k++){
+            for (int l = 0; l < 8; l++){
+              if (canMove(i, j, k, l)) {
+                //println(i + "" + j + "" + k + "" + l);
+                Pieces x = spaces[j][i].getOccupant();
+                Pieces y = spaces[l][k].getOccupant();
+                
+                spaces[j][i].setPiece(null);
+                spaces[l][k].setPiece(x);
+                if (!isChecked(x.col)){
+                  spaces[j][i].setPiece(x);
+                  spaces[l][k].setPiece(y);
+                  println(piece.name() + i + "" + j + "" + k + "" + l);
+                  return false;
+                    }
+                spaces[j][i].setPiece(x);
+                spaces[l][k].setPiece(y);
+              }
+            }
+          }
+        }
+      }
+    }print("true");
+    return true;
   }
 
-  /*
-  boolean isChecked(int firstX, int firstY, int lastX, int lastY){
-   Pieces inOld = spaces[firstY][firstX].getOccupant();
-   int kingLocX;
-   int kingLocY;
-   if (inOld.col == 255){
-   kingLocX = int(wKingLoc.substring(0,1));
-   kingLocY = int(wKingLoc.substring(1));
-   }else{
-   kingLocX = int(bKingLoc.substring(0,1));
-   kingLocY = int(bKingLoc.substring(1));
-   }
-   boolean pieceFound = false;
-   for(int i = kingLocX; i < 8 && !pieceFound; i++){
-   if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
-   if (canMove(i, kingLocY, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   }   
-   }
-   pieceFound = false;
-   for(int i = kingLocY; i < 8 && !pieceFound; i++){
-   if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
-   if (canMove(kingLocX, i, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   } 
-   }
-   pieceFound = false;
-   for(int i = kingLocX; i >= 0 && !pieceFound; i--){
-   if(spaces[i][kingLocY] != null && spaces[i][kingLocY] != spaces[firstY][firstX]){
-   if (canMove(i, kingLocY, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   } 
-   }
-   pieceFound = false;
-   for(int i = kingLocY; i >= 0 && !pieceFound; i--){
-   if(spaces[kingLocX][i] != null && spaces[kingLocX][i] != spaces[firstY][firstX]){
-   if (canMove(kingLocX, i, kingLocX, kingLocY)){
-   return true;
-   }pieceFound = true;
-   }else if(spaces[i][kingLocY] == spaces[lastY][lastX]){
-   pieceFound = true;
-   } 
-   }
-   
-   return false;
-   } */
+  boolean isChecked(color col) {
+    int bKingLocX = 0;
+    int bKingLocY = 0;
+    int wKingLocX = 0;
+    int wKingLocY = 0;
+
+    for (int i = 0; i <= 7; i++) { //Check for current location of King 
+      for (int j = 0; j <= 7; j++) {
+        if (spaces[i][j].getOccupant() != null && spaces[i][j].getOccupant().name() == "king") {
+          if (spaces[i][j].getOccupant().col == 0) {
+            bKingLocX = i;
+            bKingLocY = j;
+          } else if (spaces[i][j].getOccupant().col == 255) {
+            wKingLocX = i;
+            wKingLocY = j;
+          }
+        }
+      }
+    }
+
+    for (int i = 0; i <= 7; i++) { //Check for all pieces on the map that are the other color if they can move to the king
+      for (int j = 0; j <= 7; j++) {
+        if (spaces[i][j].getOccupant() != null && col == 255 && spaces[i][j].getOccupant().col == 0) {
+          if (canMove(j, i, wKingLocY, wKingLocX)) {
+
+            return true;
+          } else if (spaces[i][j].getOccupant() != null && col == 0 && spaces[i][j].getOccupant().col == 255) {
+            if (canMove(j, i, bKingLocY, bKingLocX)) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  } 
 
   boolean canMove(int firstX, int firstY, int lastX, int lastY) {
     /*
@@ -180,41 +201,33 @@ public class Board {
      println("Last Y: " + lastY);
      println("First Y: " + firstY);
      println("First X: " + firstX);
-     
      */
+
 
     //piece of same color in last
     Pieces inNew = spaces[lastY][lastX].getOccupant();
     Pieces inOld = spaces[firstY][firstX].getOccupant();
+    if (inOld == null) {
+      return false;
+    }
     if (inNew != null) {
       if ((inOld.col == 255 && inNew.col == 255) ||
         (inOld.col == 0 && inNew.col == 0)) {
         return false;
       }
     }
-    
+    /*
     //cannot capture kings
-    if (inNew != null && inNew.name().equals("king")){
-      return false;
-    }
-
-    //cannot capture kings
-    if (inNew != null && inNew.name().equals("king")) {
-      return false;
-    }
-
-    //out of bounds
-    /*  if (firstX < 0 || firstX > 7 || firstY < 0 || firstY > 7
-     || lastX < 0 || lastX > 7 || lastY < 0 || lastY > 8) {
+     if (inNew != null && inNew.name().equals("king")) {
      return false;
-     } */
-
+     }
+     */
     if (inOld.name().equals("pawn")) {
       //white side basic movement 
 
       if (inOld.col == 255) { //2 jump from start
         if (firstY == 6) {
-          if (lastY == 4 && lastX == firstX) {
+          if (lastY == 4 && lastX == firstX && inNew == null) {
             whoseTurn = !whoseTurn;
             return true;
           }
@@ -252,7 +265,7 @@ public class Board {
         //capturing right side
         if (firstX + 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 0) { // pawn Promotion
               String newPiece = "";
@@ -283,7 +296,7 @@ public class Board {
         //capture left
         if (firstX - 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 0) { // pawn Promotion
               String newPiece = "";
@@ -315,7 +328,7 @@ public class Board {
 
       if (inOld.col == 0) { //black side
         if (firstY == 1) { //2 jump
-          if (lastY == 3 && lastX == firstX) {
+          if (lastY == 3 && lastX == firstX && inNew == null) {
             whoseTurn = !whoseTurn;
             return true;
           }
@@ -352,7 +365,7 @@ public class Board {
         //capturing right side
         if (firstX + 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 7) { // pawn Promotion
               String newPiece = "";
@@ -382,7 +395,7 @@ public class Board {
         //capture left
         if (firstX - 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 7) { // pawn Promotion
               String newPiece = "";
@@ -415,7 +428,6 @@ public class Board {
     if (inOld.name().equals("king")) {
       //right 
       if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
-        consumed(lastY, lastX); 
         whoseTurn = !whoseTurn;
         return true;
       }
@@ -426,7 +438,7 @@ public class Board {
       int amountBlock = 0;
       boolean blocking = false;
       if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
-        consumed(lastY, lastX); 
+        // consumed(lastY, lastX); 
         whoseTurn = !whoseTurn;
         return true;
       }
@@ -487,7 +499,7 @@ public class Board {
       if (blocking == true) {
         return false;
       } else if (moveHor || moveVert) {
-        consumed(lastY, lastX); 
+        // consumed(lastY, lastX); 
         whoseTurn = !whoseTurn;
         return true;
       }
@@ -546,7 +558,7 @@ public class Board {
         if (blocking) {
           return false;
         } else {
-          consumed(lastY, lastX); 
+          // consumed(lastY, lastX); 
           whoseTurn = !whoseTurn;
           return true;
         }
@@ -615,7 +627,7 @@ public class Board {
         return false;
       } else if (moveHor || moveVert) {
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX); 
+        // consumed(lastY, lastX); 
         return true;
       }
     }
@@ -623,47 +635,47 @@ public class Board {
     if (inOld.name().equals("knight")) {
       if (firstX - lastX == 0 || firstY - lastY == 0) {
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return false;
       }
       if (firstX - 1 == lastX && firstY - 2 == lastY) { //top left
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY - 2 == lastY) { //top right
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY - 1 == lastY) { //left up
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY + 1 == lastY) { //left down
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX - 1 == lastX && firstY + 2 == lastY) { //bottom left
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY + 2 == lastY) { //bottom right
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY - 1 == lastY) { //right down
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY + 1 == lastY) { //right up
         whoseTurn = !whoseTurn; 
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
     }
@@ -728,7 +740,7 @@ public class Board {
           return false;
         } else {
           whoseTurn = !whoseTurn;
-          consumed(lastY, lastX); 
+          // consumed(lastY, lastX); 
           return true;
         }
       }
@@ -784,23 +796,23 @@ public class Board {
       }
     }
 
-    if (wKing == false || timerW == 0) {//black wins
+    if (wKing == false || timerW == 0 || ff == 2) {//black wins
       rectMode(RADIUS);
       rect(width/2, height/2, 150, 150);
       textSize(50);
       fill(0);
       text("Black Wins", 370, 350);
-      text(players[0].getName(), 425, 450);
+      text(players[1].getName(), 425, 450);
       textSize(30);
-      text("Press ` to Restart", 370, 550);
+      text("Press r to Restart", 370, 550);
       rectMode(CORNER);
-    } else if (bKing == false || timerB == 0) {//white wins
+    } else if (bKing == false || timerB == 0 || ff == 1) {//white wins
       rectMode(RADIUS);
-      rect(width/2, height/2, 150, 150);
+      rect(width/2, height/2, 150, 150 );
       textSize(50);
       fill(0);
       text("White Wins", 370, 350);
-      text(players[1].getName(), 425, 450);
+      text(players[0].getName(), 425, 450);
       textSize(30);
       text("Press ` to Restart", 370, 550);
       rectMode(CORNER);
@@ -853,6 +865,7 @@ public class Board {
       } else colrD = "Black";
       String nameFix = ""; //name is all lowercase but png are upper
       nameFix = dead.get(i).name().substring(0, 1).toUpperCase() + dead.get(i).name().substring(1);
+      if(!nameFix.equals("King")){
       PImage deadP = loadImage(colrD + "_" + nameFix + ".png"); 
       deadP.resize(40, 40);
       if (xloc < 970) {
@@ -862,6 +875,7 @@ public class Board {
         xloc = 840;
         yloc += 40;
         image(deadP, xloc, yloc);
+      }
       }
     }
   }
