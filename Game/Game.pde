@@ -35,6 +35,9 @@ void draw() {
     rect(835, 450, 200, 45);
     textSize(15);
     fill(0);
+    if (ff != 0){
+      fill(255);
+    }
     text("White: " + (timerW/45) + " seconds", 850, 490);
     text("Black: " + (timerB/45) + " seconds", 850, 470);
     textSize(25);
@@ -45,6 +48,7 @@ void draw() {
       text("White(" + players[0].getName() + ")", 845, 435);
       timerW -= 1/frameRate;
     }
+    
   }
 }
 
@@ -151,7 +155,7 @@ void keyPressed() {
     }
     timerW = timer * 2700;
     timerB = timer * 2700;
-  } else if (key == '`') {
+  } else if (key == 'r') {
     if (!title) {
       timerW = timer * 2700;
       timerB = timer * 2700; 
