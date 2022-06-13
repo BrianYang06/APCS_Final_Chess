@@ -87,9 +87,12 @@ public class Board {
     fill(255);
     rect(835, 400, 200, 45);
     rect(835, 25, 200, 40);
+    rect(835, 525, 200, 45);
     fill(0);
     text("Selected Piece", 895, 21);
     text("Whose Turn", 910, 395);
+    text("Winner", 945, 520);
+    text("Press f to forfeit", 850, 780);
   }
 
   void move(String first, String place) {
