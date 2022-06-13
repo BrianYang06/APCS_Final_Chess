@@ -110,16 +110,18 @@ public class Board {
       if (isChecked(x.col)){
         spaces[fNum][fStringNum].setPiece(x);
         spaces[pNum][pStringNum].setPiece(y);
+      }else if (y != null){
+        dead.add(y);
       }
       
     }
   }
 
-  void consumed(int x, int y) {
-    if (spaces[x][y].getOccupant() != null) {
-      dead.add(spaces[x][y].getOccupant());
-    }
-  }
+  //void consumed(int x, int y) {
+  //  if (spaces[x][y].getOccupant() != null) {
+  //    dead.add(spaces[x][y].getOccupant());
+  //  }
+  //}
 
   boolean checkmate(color col){
     if (!isChecked(col)){
@@ -136,11 +138,12 @@ public class Board {
                 //println(i + "" + j + "" + k + "" + l);
                 Pieces x = spaces[j][i].getOccupant();
                 Pieces y = spaces[l][k].getOccupant();
+                
                 spaces[j][i].setPiece(null);
                 spaces[l][k].setPiece(x);
                 if (!isChecked(x.col)){
-                  //spaces[j][i].setPiece(x);
-                  //spaces[l][k].setPiece(y);
+                  spaces[j][i].setPiece(x);
+                  spaces[l][k].setPiece(y);
                   println(piece.name() + i + "" + j + "" + k + "" + l);
                   return false;
                     }
@@ -262,7 +265,7 @@ public class Board {
         //capturing right side
         if (firstX + 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 0) { // pawn Promotion
               String newPiece = "";
@@ -293,7 +296,7 @@ public class Board {
         //capture left
         if (firstX - 1 == lastX) {
           if (firstY - 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 255) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 0) { // pawn Promotion
               String newPiece = "";
@@ -362,7 +365,7 @@ public class Board {
         //capturing right side
         if (firstX + 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 7) { // pawn Promotion
               String newPiece = "";
@@ -392,7 +395,7 @@ public class Board {
         //capture left
         if (firstX - 1 == lastX) {
           if (firstY + 1 == lastY && spaces[lastY][lastX].getOccupant() != null && spaces[lastY][lastX].getOccupant().col != 0) {
-            consumed(lastY, lastX); 
+            // consumed(lastY, lastX); 
             whoseTurn = !whoseTurn;
             if (lastY == 7) { // pawn Promotion
               String newPiece = "";
@@ -435,7 +438,7 @@ public class Board {
       int amountBlock = 0;
       boolean blocking = false;
       if ((firstX + 1 == lastX || firstX - 1 == lastX || lastX == firstX) && (firstY + 1 == lastY || firstY - 1 == lastY || lastY == firstY)) {
-        consumed(lastY, lastX); 
+        // consumed(lastY, lastX); 
         whoseTurn = !whoseTurn;
         return true;
       }
@@ -496,7 +499,7 @@ public class Board {
       if (blocking == true) {
         return false;
       } else if (moveHor || moveVert) {
-        consumed(lastY, lastX); 
+        // consumed(lastY, lastX); 
         whoseTurn = !whoseTurn;
         return true;
       }
@@ -555,7 +558,7 @@ public class Board {
         if (blocking) {
           return false;
         } else {
-          consumed(lastY, lastX); 
+          // consumed(lastY, lastX); 
           whoseTurn = !whoseTurn;
           return true;
         }
@@ -624,7 +627,7 @@ public class Board {
         return false;
       } else if (moveHor || moveVert) {
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX); 
+        // consumed(lastY, lastX); 
         return true;
       }
     }
@@ -632,47 +635,47 @@ public class Board {
     if (inOld.name().equals("knight")) {
       if (firstX - lastX == 0 || firstY - lastY == 0) {
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return false;
       }
       if (firstX - 1 == lastX && firstY - 2 == lastY) { //top left
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY - 2 == lastY) { //top right
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY - 1 == lastY) { //left up
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX - 2 == lastX && firstY + 1 == lastY) { //left down
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX - 1 == lastX && firstY + 2 == lastY) { //bottom left
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 1 == lastX && firstY + 2 == lastY) { //bottom right
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY - 1 == lastY) { //right down
         whoseTurn = !whoseTurn;
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
       if (firstX + 2 == lastX && firstY + 1 == lastY) { //right up
         whoseTurn = !whoseTurn; 
-        consumed(lastY, lastX);
+        // consumed(lastY, lastX);
         return true;
       }
     }
@@ -737,7 +740,7 @@ public class Board {
           return false;
         } else {
           whoseTurn = !whoseTurn;
-          consumed(lastY, lastX); 
+          // consumed(lastY, lastX); 
           return true;
         }
       }
