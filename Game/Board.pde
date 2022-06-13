@@ -107,6 +107,10 @@ public class Board {
       Pieces y = spaces[pNum][pStringNum].getOccupant();
       spaces[fNum][fStringNum].setPiece(null);
       spaces[pNum][pStringNum].setPiece(x);
+      if (isChecked(x.col)){
+        spaces[fNum][fStringNum].setPiece(x);
+        spaces[pNum][pStringNum].setPiece(y);
+      }
       
     }
   }
@@ -118,7 +122,7 @@ public class Board {
   }
 
 
-  boolean isChecked() {
+  boolean isChecked(color col) {
     int bKingLocX = 0;
     int bKingLocY = 0;
     int wKingLocX = 0;
@@ -140,11 +144,11 @@ public class Board {
 
     for (int i = 0; i <= 7; i++) { //Check for all pieces on the map that are the other color if they can move to the king
       for (int j = 0; j <= 7; j++) {
-        if (spaces[i][j].getOccupant() != null && spaces[i][j].getOccupant().col == 0) {
+        if (spaces[i][j].getOccupant() != null && col == 255 && spaces[i][j].getOccupant().col == 0) {
           if (canMove(j, i, wKingLocY, wKingLocX)) {
 
             return true;
-          } else if (spaces[i][j].getOccupant() != null && spaces[i][j].getOccupant().col == 255) {
+          } else if (spaces[i][j].getOccupant() != null && col == 0 && spaces[i][j].getOccupant().col == 255) {
             if (canMove(j, i, bKingLocY, bKingLocX)) {
               return true;
             }
