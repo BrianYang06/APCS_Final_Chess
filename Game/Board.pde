@@ -84,11 +84,11 @@ public class Board {
     fill(255);
     rect(835, 400, 200, 45);
     rect(835, 25, 200, 40);
-    rect(835, 525, 200, 45);
+    //rect(835, 525, 200, 45);
     fill(0);
     text("Selected Piece", 895, 21);
     text("Whose Turn", 910, 395);
-    text("Winner", 945, 520);
+    //text("Winner", 945, 520);
     text("Press f to forfeit", 850, 780);
   }
 
@@ -107,13 +107,12 @@ public class Board {
       Pieces y = spaces[pNum][pStringNum].getOccupant();
       spaces[fNum][fStringNum].setPiece(null);
       spaces[pNum][pStringNum].setPiece(x);
-      if (isChecked(x.col)){
+      if (isChecked(x.col)) {
         spaces[fNum][fStringNum].setPiece(x);
         spaces[pNum][pStringNum].setPiece(y);
-      }else if (y != null){
+      } else if (y != null) {
         dead.add(y);
       }
-      
     }
   }
 
@@ -123,30 +122,29 @@ public class Board {
   //  }
   //}
 
-  boolean checkmate(color col){
-    if (!isChecked(col)){
+  boolean checkmate(color col) {
+    if (!isChecked(col)) {
       return false;
     }
-    for(int i = 0; i < 8; i++){
-      for (int j = 0; j < 8; j++){
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
         Pieces piece = spaces[j][i].getOccupant();
-        if (piece != null && piece.col == col){
+        if (piece != null && piece.col == col) {
           //print(piece.name());
-          for (int k = 0; k < 8; k++){
-            for (int l = 0; l < 8; l++){
+          for (int k = 0; k < 8; k++) {
+            for (int l = 0; l < 8; l++) {
               if (canMove(i, j, k, l)) {
                 //println(i + "" + j + "" + k + "" + l);
                 Pieces x = spaces[j][i].getOccupant();
                 Pieces y = spaces[l][k].getOccupant();
-                
+
                 spaces[j][i].setPiece(null);
                 spaces[l][k].setPiece(x);
-                if (!isChecked(x.col)){
+                if (!isChecked(x.col)) {
                   spaces[j][i].setPiece(x);
                   spaces[l][k].setPiece(y);
-                  println(piece.name() + i + "" + j + "" + k + "" + l);
                   return false;
-                    }
+                }
                 spaces[j][i].setPiece(x);
                 spaces[l][k].setPiece(y);
               }
@@ -154,7 +152,7 @@ public class Board {
           }
         }
       }
-    }print("true");
+    }
     return true;
   }
 
@@ -234,7 +232,6 @@ public class Board {
         } 
 
         if (firstY - 1 == lastY && lastX == firstX) {
-          println(spaces[lastY][lastX].getOccupant());
           if (spaces[lastY][lastX].isEmpty()) {
             if (lastY == 0) { // pawn Promotion
               String newPiece = "";
@@ -334,7 +331,7 @@ public class Board {
           }
         }
         if (firstY + 1 == lastY && lastX == firstX) { //single tile move
-          println(spaces[lastY][lastX].getOccupant());
+
           if (spaces[lastY][lastX].isEmpty()) {
             whoseTurn = !whoseTurn;
             if (lastY == 7) { // pawn Promotion
@@ -825,10 +822,10 @@ public class Board {
       for (int j = 0; j < spaces[0].length; j++) {
         alternate = !alternate;
         if (alternate == false) {
-          fill(105, 180, 105);
+          fill(bcolr);
           square(i * 100, j * 100, 100);
         } else if (alternate == true) {
-          fill(150, 75, 150);
+          fill(255 - bcolr);
           square(i * bLength/8, j * bLength/8, 100);
         }
       }
@@ -837,17 +834,18 @@ public class Board {
       } else alternate = !alternate;
     }
     fill(0);
-
-    for (int i = 0; i <=7; i++) {
-      for (int k = 0; k <= 7; k++) {
-        if (spaces[i][k] != null) {
-          if (spaces[i][k].getOccupant() != null) {
-            textSize(10);
-            text(spaces[i][k].getOccupant().name(), k * 100, i * 100 + 100);
-          } 
-          /*else if (spaces[i][k].getOccupant() == null) {
-           text("null", k * 100, i * 100 + 100);
-           }*/
+    if (showPName) {
+      for (int i = 0; i <=7; i++) {
+        for (int k = 0; k <= 7; k++) {
+          if (spaces[i][k] != null) {
+            if (spaces[i][k].getOccupant() != null) {
+              textSize(10);
+              text(spaces[i][k].getOccupant().name(), k * 100, i * 100 + 100);
+            } 
+            /*else if (spaces[i][k].getOccupant() == null) {
+             text("null", k * 100, i * 100 + 100);
+             }*/
+          }
         }
       }
     }
@@ -865,17 +863,17 @@ public class Board {
       } else colrD = "Black";
       String nameFix = ""; //name is all lowercase but png are upper
       nameFix = dead.get(i).name().substring(0, 1).toUpperCase() + dead.get(i).name().substring(1);
-      if(!nameFix.equals("King")){
-      PImage deadP = loadImage(colrD + "_" + nameFix + ".png"); 
-      deadP.resize(40, 40);
-      if (xloc < 970) {
-        image(deadP, xloc, yloc);
-        xloc += 20;
-      } else {
-        xloc = 840;
-        yloc += 40;
-        image(deadP, xloc, yloc);
-      }
+      if (!nameFix.equals("King")) {
+        PImage deadP = loadImage(colrD + "_" + nameFix + ".png"); 
+        deadP.resize(40, 40);
+        if (xloc < 970) {
+          image(deadP, xloc, yloc);
+          xloc += 20;
+        } else {
+          xloc = 840;
+          yloc += 40;
+          image(deadP, xloc, yloc);
+        }
       }
     }
   }
