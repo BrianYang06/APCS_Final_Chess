@@ -23,6 +23,12 @@ void draw() {
   //println(frameRate);
   if (!title) {
     b.update();
+    if(b.checkmate(255)){
+      ff = 2;
+    }
+    else if (b.checkmate(0)){
+      ff = 1;
+    }
     //text(players[current].getName() + "Turn", 400, 800);
     fill(255);
     rect(835, 400, 200, 45);  
@@ -51,7 +57,6 @@ String mouseSquare(int x, int y) {
 
 void mouseClicked() {
   if (title == false) {
-
     if (CLICK_MODE == FIRST) {
       int x = mouseX;
       int t = mouseY;
