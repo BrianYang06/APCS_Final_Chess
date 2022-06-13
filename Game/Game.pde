@@ -24,7 +24,7 @@ void setup() {
 }
 
 void draw() {
-  //println(frameRate);
+  println(frameRate);
   if (!title) {
     b.update();
     if (b.checkmate(255)) {
@@ -41,8 +41,8 @@ void draw() {
     if (ff != 0) {
       fill(255);
     }
-    text("White: " + (timerW/45) + " seconds", 850, 490);
-    text("Black: " + (timerB/45) + " seconds", 850, 470);
+    text("White: " + (timerW/20) + " seconds", 850, 490);
+    text("Black: " + (timerB/20) + " seconds", 850, 470);
     textSize(25);
     if (!whoseTurn) {
       text("Black(" + players[1].getName() + ")", 845, 425);
@@ -160,12 +160,12 @@ void keyPressed() {
         timer = getI("Enter Time(In Minutes):");
       }
     }
-    timerW = timer * 2700;
-    timerB = timer * 2700;
+    timerW = timer * 1200;
+    timerB = timer * 1200;
   } else if (key == 'r' || key == 'R') {
     if (!title) {
-      timerW = timer * 2700;
-      timerB = timer * 2700; 
+      timerW = timer * 1200;
+      timerB = timer * 1200; 
       title();
       startGame();
       whoseTurn = true;
@@ -184,8 +184,8 @@ void keyPressed() {
     }
     catch(Exception e) {
     }
-  }else if(key == 'n' || key == 'N'){
-   showPName = !showPName; 
+  } else if (key == 'n' || key == 'N') {
+    showPName = !showPName;
   }
 }
 
@@ -193,7 +193,7 @@ void title() {
   title = true;
   background(0);
   PImage titlescreen = loadImage("chess.jpeg");
-  image(titlescreen,160, 248);
+  image(titlescreen, 160, 248);
   //int x = titlescreen.width;
   //int y = titlescreen.height;
   //print(x + " " + y);
