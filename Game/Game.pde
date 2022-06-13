@@ -193,14 +193,14 @@ void title() {
   title = true;
   background(0);
   PImage titlescreen = loadImage("chess.jpeg");
-  image(titlescreen, 110, 248);
+  image(titlescreen,160, 248);
   //int x = titlescreen.width;
   //int y = titlescreen.height;
   //print(x + " " + y);
   textSize(50);
   fill(255);
   text("CHESS", width/2 - 90, 198);
-  text("Press SPACEBAR to start", 140, 652);
+  text("Press SPACEBAR to start", 190, 652);
 }
 
 
