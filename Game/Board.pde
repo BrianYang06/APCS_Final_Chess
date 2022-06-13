@@ -121,6 +121,39 @@ public class Board {
     }
   }
 
+  boolean checkmate(color col){
+    if (!isChecked(col)){
+      return false;
+    }
+    for(int i = 0; i < 8; i++){
+      for (int j = 0; j < 8; j++){
+        Pieces piece = spaces[j][i].getOccupant();
+        if (piece != null && piece.col == col){
+          //print(piece.name());
+          for (int k = 0; k < 8; k++){
+            for (int l = 0; l < 8; l++){
+              if (canMove(i, j, k, l)) {
+                //println(i + "" + j + "" + k + "" + l);
+                Pieces x = spaces[j][i].getOccupant();
+                Pieces y = spaces[l][k].getOccupant();
+                spaces[j][i].setPiece(null);
+                spaces[l][k].setPiece(x);
+                if (!isChecked(x.col)){
+                  //spaces[j][i].setPiece(x);
+                  //spaces[l][k].setPiece(y);
+                  println(piece.name() + i + "" + j + "" + k + "" + l);
+                  return false;
+                    }
+                spaces[j][i].setPiece(x);
+                spaces[l][k].setPiece(y);
+              }
+            }
+          }
+        }
+      }
+    }print("true");
+    return true;
+  }
 
   boolean isChecked(color col) {
     int bKingLocX = 0;
@@ -191,7 +224,7 @@ public class Board {
 
       if (inOld.col == 255) { //2 jump from start
         if (firstY == 6) {
-          if (lastY == 4 && lastX == firstX) {
+          if (lastY == 4 && lastX == firstX && inNew == null) {
             whoseTurn = !whoseTurn;
             return true;
           }
