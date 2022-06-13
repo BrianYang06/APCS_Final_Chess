@@ -325,7 +325,7 @@ public class Board {
 
       if (inOld.col == 0) { //black side
         if (firstY == 1) { //2 jump
-          if (lastY == 3 && lastX == firstX) {
+          if (lastY == 3 && lastX == firstX && inNew == null) {
             whoseTurn = !whoseTurn;
             return true;
           }
