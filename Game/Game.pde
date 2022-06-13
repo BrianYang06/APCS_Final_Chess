@@ -12,7 +12,11 @@ final int NEXT_PLAY = 2;
 int timer = 0;
 int timerB = 0;
 int timerW = 0;
+int bcolr = 50; //starting color so you can actually see the pieces 
+boolean showPName = true;
 String first;
+
+
 
 void setup() {
   size(1000, 850);
@@ -23,10 +27,9 @@ void draw() {
   //println(frameRate);
   if (!title) {
     b.update();
-    if(b.checkmate(255)){
+    if (b.checkmate(255)) {
       ff = 2;
-    }
-    else if (b.checkmate(0)){
+    } else if (b.checkmate(0)) {
       ff = 1;
     }
     //text(players[current].getName() + "Turn", 400, 800);
@@ -35,7 +38,7 @@ void draw() {
     rect(835, 450, 200, 45);
     textSize(15);
     fill(0);
-    if (ff != 0){
+    if (ff != 0) {
       fill(255);
     }
     text("White: " + (timerW/45) + " seconds", 850, 490);
@@ -48,7 +51,6 @@ void draw() {
       text("White(" + players[0].getName() + ")", 845, 435);
       timerW -= 1/frameRate;
     }
-    
   }
 }
 
@@ -75,8 +77,8 @@ void mouseClicked() {
           if (b.squareAt(t/100, x/100).getOccupant().col == 0) {
             pColor = "Black";
           } else pColor = "White";
-          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getOccupant().name(), 840, 40);
- 
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getOccupant().name(), 840, 50);
+
           CLICK_MODE++;
         }
       } else {
@@ -90,7 +92,7 @@ void mouseClicked() {
           if (b.squareAt(t/100, x/100).getOccupant().col == 0) {
             pColor = "Black";
           } else pColor = "White";
-          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getOccupant().name(), 840, 40);
+          text("Selected: " + pColor + " "  + b.squareAt(t/100, x/100).getOccupant().name(), 840, 50);
           CLICK_MODE++;
         }
       }
@@ -151,11 +153,16 @@ void keyPressed() {
     players[0] = new Player(name1, 255);
     players[1] = new Player(name2, 0);
     while (timer < 1) { 
-      timer = getI("Enter Time(In Minutes):");
+      try {
+        timer = getI("Enter Time(In Minutes):");
+      }
+      catch(Exception e) {
+        timer = getI("Enter Time(In Minutes):");
+      }
     }
     timerW = timer * 2700;
     timerB = timer * 2700;
-  } else if (key == 'r') {
+  } else if (key == 'r' || key == 'R') {
     if (!title) {
       timerW = timer * 2700;
       timerB = timer * 2700; 
@@ -164,14 +171,21 @@ void keyPressed() {
       whoseTurn = true;
       ff = 0;
     }
-  } else if (key == 'p') {
-    exit();
-  } else if (key == 'f'){
-    if (!whoseTurn){
+  } else if (key == 'f' || key == 'F') {
+    if (!whoseTurn) {
       ff = 1;
-    }else{
+    } else {
       ff = 2;
     }
+  } else if (key == 'c' || key == 'C') {
+    try {
+      int tempcolr = getI("Enter a Integer between 0 and 255:");
+      bcolr = tempcolr;
+    }
+    catch(Exception e) {
+    }
+  }else if(key == 'n' || key == 'N'){
+   showPName = !showPName; 
   }
 }
 
