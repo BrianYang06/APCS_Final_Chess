@@ -804,11 +804,11 @@ public class Board {
       text("Black Wins", 370, 350);
       text(players[1].getName(), 425, 450);
       textSize(30);
-      text("Press ` to Restart", 370, 550);
+      text("Press r to Restart", 370, 550);
       rectMode(CORNER);
     } else if (bKing == false || timerB == 0 || ff == 1) {//white wins
       rectMode(RADIUS);
-      rect(width/2, height/2, 150, 150);
+      rect(width/2, height/2, 150, 150 );
       textSize(50);
       fill(0);
       text("White Wins", 370, 350);
