@@ -155,6 +155,12 @@ void keyPressed() {
     }
   } else if (key == 'p') {
     exit();
+  } else if (key == 'f'){
+    if (whoseTurn){
+      text(players[1].getName() + " wins!", 850, 550);
+    }else{
+      text(players[0].getName() + " wins!", 850, 550);
+    }
   }
 }
 
